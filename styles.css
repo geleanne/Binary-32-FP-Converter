@@ -116,17 +116,31 @@ button:hover {
 
 /* Output box */
 .output-box {
-    padding: 10px 30px 30px;
+    padding: 1px 20px 20px;
     background: #EDCEF1;
     margin: 20px 45px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Output - 1st row */
+.output-second-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.output {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
 
-/* Output - 2nd row */
-
-
-/* */
+.output-placeholder {
+    padding: 8px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background: #F2ECEC;
+    color: #888;
+    text-align: center;
+}

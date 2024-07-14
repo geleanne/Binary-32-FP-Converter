@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (selectedFormat === 'binary') {
             mantissaLabelText = 'Binary';
             placeholderText = 'Enter a binary number';
-            exponentLabelText = 'Exponent (Base- 2)';
+            exponentLabelText = 'Exponent (Base-2)';
         } else if (selectedFormat === 'decimal') {
             mantissaLabelText = 'Decimal';
             placeholderText = 'Enter a decimal number';
-            exponentLabelText = 'Exponent (Base- 10)';
+            exponentLabelText = 'Exponent (Base-10)';
         // not yet sure, placeholder muna
         } else if (selectedFormat === 'nan') {
             mantissaLabelText = 'NaN';
