@@ -17,15 +17,15 @@ body {
 
 /* Input box */
 .input-box {
-    padding: 10px 30px 30px;
+    padding: 0px 20px 18px;
     background: #EDCEF1;
-    margin: 20px 70px 20px;
+    margin: 20px 45px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Input - 1st row */
-.first-row {
+.input-first-row {
     display: flex;
 }
 
@@ -34,7 +34,6 @@ body {
     justify-content: center;
     align-items: center;
     padding-left: 20px;
-    
 }
 
 .input-select select {
@@ -49,7 +48,7 @@ body {
 }
 
 /* Input - 2nd row */
-.second-row {
+.input-second-row {
     display: flex;
     justify-content: space-between;
 }
@@ -96,5 +95,38 @@ button {
 button:hover {
     background-color: #8B2D81;
 }
+
+
+/* Process box */
+.process-box {
+    padding: 10px 30px 30px;
+    background: #EDCEF1;
+    margin: 20px 45px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Process - 1st row */
+
+
+/* Process - 2nd row */
+
+
+
+
+/* Output box */
+.output-box {
+    padding: 10px 30px 30px;
+    background: #EDCEF1;
+    margin: 20px 45px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Output - 1st row */
+
+
+/* Output - 2nd row */
+
 
 /* */

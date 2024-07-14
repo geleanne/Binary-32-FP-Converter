@@ -15,7 +15,8 @@
 
         <!-- Input -->
         <div class="input-box">
-            <div class="first-row">
+            <!-- "INPUT" and drop down button -->
+            <div class="input-first-row">
                 <div class="input-text">
                     <h2>INPUT</h2>
                 </div>
@@ -23,16 +24,18 @@
                     <select id="input-type">
                         <option value="decimal">Decimal</option>
                         <option value="binary">Binary</option>
+                        <option value="nan">NaN</option>
                     </select>
                 </div>
             </div>
-            <div class="second-row">
+            <!-- Input fields and COMPUTE button -->
+            <div class="input-second-row">
                 <div class="input">
-                    <label for="decimal">Decimal</label>
-                    <input type="text" id="decimal" placeholder="Enter a decimal number">
+                    <label id="mantissa-label">Decimal</label>
+                    <input type="text" id="mantissa-input" placeholder="Enter a decimal number">
                 </div>
                 <div class="input">
-                    <label for="exponent">Exponent</label>
+                    <label id="exponent-base">Exponent (Base- 10)</label>
                     <input type="text" id="exponent" placeholder="Enter an exponent">
                 </div>
                 <div class="button">
@@ -41,6 +44,25 @@
             </div>
         </div>
 
+        <!-- Process -->
+        <div class="process-box">
+            <div class="process-first-row">
+                <div class="process-text">
+                    <h2>PROCESS</h2>
+                </div>
+            </div> 
+        </div> 
+
+        <!-- Output -->
+        <div class="output-box">
+            <div class="output-first-row">
+                <div class="output-text">
+                    <h2>OUTPUT</h2>
+                </div>
+            </div> 
+        </div> 
+
+        
     </div>
     <script src="scripts.js"></script>
 </body>
