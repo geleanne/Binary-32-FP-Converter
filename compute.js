@@ -70,7 +70,7 @@ function computeNormalizedBinary() {
 
     if (!binaryEquivalent) {
         normalizedBinaryOutput.textContent = '';
-        return;
+        return 0;
     }
 
     const [integerPart, fractionalPart] = binaryEquivalent.split('.');
@@ -78,16 +78,26 @@ function computeNormalizedBinary() {
     let exponent = 0;
 
     if (integerPart && integerPart !== '0') {
-        // Move the point left to get the first "1" on the leftmost side
         const firstOneIndex = integerPart.indexOf('1');
         exponent = integerPart.length - firstOneIndex - 1;
         normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${fractionalPart || ''}`;
     } else if (fractionalPart) {
-        // Move the point right to get the first "1" on the leftmost side
         const firstOneIndex = fractionalPart.indexOf('1');
         exponent = -(firstOneIndex + 1);
         normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
     }
 
     normalizedBinaryOutput.textContent = normalizedBinary;
+    return exponent; // return the exponent count for the computeFinalExponent()
+}
+
+// handle the final exponent output
+function computeFinalExponent() {
+    const exponentInput = document.getElementById('exponent-input');
+    const finalExponentOutput = document.getElementById('final-exponent');
+    const inputExponent = parseInt(exponentInput.value, 10);
+    const normalizedExponent = computeNormalizedBinary();
+    const finalExponent = inputExponent + normalizedExponent;
+
+    finalExponentOutput.textContent = finalExponent;
 }

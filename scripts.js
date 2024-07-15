@@ -147,8 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             computeSignBit();
             computeBinaryRepresentation();
-            computeNormalizedBinary();
-            // computeFinalExponentandEPrime();
+            computeFinalExponent();
         }
     });
 });
