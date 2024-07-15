@@ -25,5 +25,24 @@ function convertDecimalToBinary(decimalNumber) {
         integerPart = Math.floor(integerPart / 2);
     }
 
+    // Ensure at least one zero is printed for integer part
+    if (binary === '') {
+        binary = '0';
+    }
+
+    // Convert fractional part to binary
+    if (fractionalPart > 0) {
+        binary += '.';
+        while (fractionalPart > 0) {
+            fractionalPart *= 2;
+            if (fractionalPart >= 1) {
+                binary += '1';
+                fractionalPart -= 1;
+            } else {
+                binary += '0';
+            }
+        }
+    }
+
     return binary;
 }

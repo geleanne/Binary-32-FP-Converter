@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mantissaError = document.getElementById('mantissa-error');    // error message for invalid decimal OR binary input
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
     const computeButton = document.getElementById('compute');           
-    const normalizedBinaryOutput = document.getElementById('normalized-binary');
+    const binaryEquivalentOutput = document.getElementById('binary-equivalent');
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             mantissaLabelText = 'Decimal';
             placeholderText = 'Enter a decimal number';
             exponentLabelText = 'Exponent (Base-10)';
+        // placeholder muna since not yet sure for nan
         } else if (selectedFormat === 'nan') {
             mantissaLabelText = 'NaN';
             placeholderText = 'Enter NaN value';
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (selectedFormat === 'decimal' && isNaN(mantissaValue)) {
             mantissaError.textContent = 'Invalid decimal input.';
             isValid = false;
+        // placeholder muna since not yet sure for nan
         } else if (selectedFormat === 'nan' && mantissaValue !== '') {
             mantissaError.textContent = 'NaN should not have any value.';
             isValid = false;
@@ -87,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
                 isValid = false;
             }
+        // placeholder muna since not yet sure for nan
         } else if (exponentValue !== '') {
             exponentError.textContent = 'NaN should not have any value.';
             isValid = false;
@@ -105,7 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function computeBinaryRepresentation() {
         const mantissaValue = parseFloat(mantissaInput.value.trim());
         const binaryRepresentation = convertDecimalToBinary(mantissaValue);
-        normalizedBinaryOutput.textContent = binaryRepresentation;
+        
+        binaryEquivalentOutput.textContent = binaryRepresentation;
     }
 
     // validation on compute button click
