@@ -109,17 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return isValid;
     };
 
-    // convertDecimalToBinary function from compute.js 
-    // then display the binary representation
     function computeBinaryRepresentation() {
-        const mantissaValue = parseFloat(mantissaInput.value.trim());
-        const binaryRepresentation = convertDecimalToBinary(mantissaValue);
-        // const normalizedBinary = normalizeBinary(binaryRepresentation);
+        const mantissaInput = document.getElementById('mantissa-input');
+        const binaryEquivalentOutput = document.getElementById('binary-equivalent');
+        const mantissaValue = mantissaInput.value.trim();
 
-        binaryEquivalentOutput.textContent = binaryRepresentation;
-        // document.getElementById('normalized-binary').textContent = normalizedBinary;
+        const binaryEquivalent = convertDecimalToBinary(mantissaValue);
+        binaryEquivalentOutput.textContent = binaryEquivalent;
     }
-
+    
     // validation on compute button click
     computeButton.addEventListener('click', (event) => {
         const isValid = validateInputs();

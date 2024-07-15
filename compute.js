@@ -1,4 +1,4 @@
-// print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
+// Print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
 function computeSignBit() {
     const mantissaInput = document.getElementById('mantissa-input');
     const signBitOutput = document.getElementById('sign-bit');
@@ -13,36 +13,49 @@ function computeSignBit() {
     signBitOutput.textContent = signBit;
 }
 
-// convert decimal to binary
-function convertDecimalToBinary(decimalNumber) {
+// Function to convert the integer part of a decimal number to binary
+function integerToBinary(integerPart) {
     let binary = '';
-    let integerPart = Math.abs(Math.floor(decimalNumber));
-    let fractionalPart = Math.abs(decimalNumber) - integerPart;
+    let num = parseInt(integerPart, 10);
 
-    // convert integer part to binary
-    while (integerPart > 0) {
-        binary = (integerPart % 2) + binary;
-        integerPart = Math.floor(integerPart / 2);
+    if (num === 0) return '0';
+
+    while (num > 0) {
+        binary = (num % 2) + binary;
+        num = Math.floor(num / 2);
     }
-
-    // ensure at least one zero is printed for integer part
-    if (binary === '') {
-        binary = '0';
-    }
-
-    // convert fractional part to binary
-    if (fractionalPart > 0) {
-        binary += '.';
-        while (fractionalPart > 0) {
-            fractionalPart *= 2;
-            if (fractionalPart >= 1) {
-                binary += '1';
-                fractionalPart -= 1;
-            } else {
-                binary += '0';
-            }
-        }
-    }
-
     return binary;
+}
+
+// Function to convert the fractional part of a decimal number to binary
+function fractionalToBinary(fractionalPart) {
+    let binary = '';
+    let num = parseFloat('0.' + fractionalPart);
+    let precision = fractionalPart.length;
+
+    while (precision > 0) {
+        num *= 2;
+        if (num >= 1) {
+            binary += '1';
+            num -= 1;
+        } else {
+            binary += '0';
+        }
+        precision--;
+    }
+    return binary;
+}
+
+// Function to handle the conversion process
+function convertDecimalToBinary(decimalNumber) {
+    const absoluteValue = decimalNumber.startsWith('-') ? decimalNumber.slice(1) : decimalNumber;
+
+    if (absoluteValue.includes('.')) {
+        const [integerPart, fractionalPart] = absoluteValue.split('.');
+        const integerBinary = integerToBinary(integerPart);
+        const fractionalBinary = fractionalToBinary(fractionalPart);
+        return `${integerBinary}.${fractionalBinary}`;
+    } else {
+        return integerToBinary(absoluteValue);
+    }
 }
