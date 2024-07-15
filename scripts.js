@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (exponentValue === '') {
                 exponentError.textContent = 'Exponent cannot be empty.';
                 isValid = false;
-            } else if (!/^\d+$/.test(exponentValue)) {
+            } else if (!/^[+-]?\d+$/.test(exponentValue)) {
                 exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
                 isValid = false;
             }
