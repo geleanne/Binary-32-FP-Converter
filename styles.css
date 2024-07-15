@@ -5,6 +5,17 @@ body {
     margin: 0;
 }
 
+h2 {
+    color: #BD53B2; 
+}
+.process-text h2,
+.output-text h2 {
+    padding: 10px 0;
+    margin: 0; 
+}
+
+
+
 /* Container */
 .container {
     transition: margin-left 0.3s;
@@ -70,7 +81,7 @@ body {
 .input-box {
     padding: 0px 20px 18px;
     background: #EDCEF1;
-    margin: 20px 45px 20px;
+    margin: 20px 45px 1px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -149,18 +160,54 @@ button:hover {
 
 /* Process box */
 .process-box {
-    padding: 10px 30px 30px;
+    padding: 1px 20px 5px;
     background: #EDCEF1;
-    margin: 20px 45px 20px;
+    margin: 15px 45px 2px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.process-first-row {
+    margin-bottom: 10px;
+}
+
+.process-second-row,
+.process-third-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.process-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.process-field:last-child {
+    margin-right: 0;
+}
+
+.process-field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.process-output {
+    padding: 8px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background: #DDBDE1;
+    height: 20px;
+}
+
 /* Output box */
 .output-box {
-    padding: 1px 20px 20px;
+    padding: 1px 20px 15px;
     background: #EDCEF1;
-    margin: 20px 45px 20px;
+    margin: 15px 45px 2px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -187,7 +234,7 @@ button:hover {
     text-align: center;
 }
 
-
+/* Error message */
 .error-message {
     color: red;
     font-size: 12px;

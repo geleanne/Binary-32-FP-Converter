@@ -28,7 +28,7 @@
     <div class="container" id="container">
         <!-- Input -->
         <div class="input-box">
-            <!-- "INPUT" and drop down button -->
+            <!-- 1st row: "INPUT" and drop down button -->
             <div class="input-first-row">
                 <div class="input-text">
                     <h2>INPUT</h2>
@@ -41,7 +41,7 @@
                     </select>
                 </div>
             </div>
-            <!-- Input fields and COMPUTE button -->
+            <!-- 2nd row: Input fields and COMPUTE button -->
             <div class="input-second-row">
                 <div class="input">
                     <label id="mantissa-label">Decimal</label>
@@ -59,24 +59,57 @@
             </div>
         </div>
 
-        <!-- Process -->
-        <div class="process-box">
-            <div class="process-first-row">
-                <div class="process-text">
-                    <h2>PROCESS</h2>
-                </div>
-            </div> 
-        </div> 
+<!-- Process -->
+<div class="process-box">
+    <!-- 1st row:  -->
+    <div class="process-first-row">
+        <div class="process-text">
+            <h2>PROCESS</h2>
+        </div>
+    </div> 
+
+    <!-- 2nd row:  -->
+    <div class="process-second-row">
+        <div class="process-field">
+            <label>Normalized Decimal</label>
+            <div id="normalized-decimal" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Final Exponent</label>
+            <div id="final-exponent" class="process-output"></div>
+        </div>
+    </div>
+
+    <!-- 3rd row:  -->
+    <div class="process-third-row">
+        <div class="process-field">
+            <label>Sign Bit</label>
+            <div id="sign-bit" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>E'</label>
+            <div id="e-prime" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Significand</label>
+            <div id="significand" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Special Case</label>
+            <div id="special-case" class="process-output"></div>
+        </div>
+    </div>
+</div>
 
         <!-- Output -->
         <div class="output-box">
-            <!-- "OUTPUT" -->
+            <!-- 1st row: "OUTPUT" -->
             <div class="output-first-row">
                 <div class="output-text">
                     <h2>OUTPUT</h2>
                 </div>
             </div> 
-            <!-- final answers -->
+            <!-- 2nd row: final answers -->
             <div class="output-second-row">
                 <div class="output">
                     <label id="final-answer">Final Answer (Binary)</label>
