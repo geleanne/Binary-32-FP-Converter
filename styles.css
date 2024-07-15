@@ -7,9 +7,11 @@ body {
     margin: 0;
 }
 
+/* H2: "INPUT", "PROCESS", and "OUTPUT" */
 h2 {
     color: #BD53B2; 
 }
+
 .process-text h2,
 .output-text h2 {
     padding: 10px 0;
@@ -19,6 +21,7 @@ h2 {
 /* Container */
 .container {
     transition: margin-left 0.3s;
+    padding: 20px;
 }
 
 .container.shifted {
@@ -81,7 +84,7 @@ h2 {
 .input-box {
     padding: 0px 20px 18px;
     background: #EDCEF1;
-    margin: 20px 45px 1px;
+    margin: 1px 40px 1px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -104,22 +107,22 @@ h2 {
     border-radius: 4px;
     background-color: #BD53B2;
     color: white;
+    text-align: center;
     cursor: pointer;
-    font-weight: bold;
     transition: background-color 0.3s;
 }
 
 /* Input - 2nd row */
 .input-second-row {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .input {
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin-right: 10px;
 }
 
 label {
@@ -162,7 +165,7 @@ button:hover {
 .process-box {
     padding: 1px 20px 5px;
     background: #EDCEF1;
-    margin: 15px 45px 2px;
+    margin: 12px 40px 1px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -174,7 +177,8 @@ button:hover {
 .process-second-row,
 .process-third-row {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
@@ -182,11 +186,6 @@ button:hover {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
-}
-
-.process-field:last-child {
-    margin-right: 0;
 }
 
 .process-field label {
@@ -206,14 +205,15 @@ button:hover {
 .output-box {
     padding: 1px 20px 15px;
     background: #EDCEF1;
-    margin: 15px 45px 2px;
+    margin: 12px 40px 1px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .output-second-row {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
     align-items: center;
 }
 
@@ -221,7 +221,6 @@ button:hover {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
 }
 
 .output-placeholder {
@@ -238,4 +237,15 @@ button:hover {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+    display: block;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .input-second-row,
+    .process-second-row,
+    .process-third-row,
+    .output-second-row {
+        flex-direction: column;
+    }
 }
