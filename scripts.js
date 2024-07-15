@@ -69,13 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mantissaValue === '') {
             mantissaError.textContent = 'Mantissa cannot be empty.';
             isValid = false;
-        } else if (selectedFormat === 'binary' && /[^01]/.test(mantissaValue)) {
+        } else if (selectedFormat === 'binary' && !isValidBinaryInput(mantissaValue)) {
             mantissaError.textContent = 'Invalid binary input.';
             isValid = false;
         } else if (selectedFormat === 'decimal' && isNaN(mantissaValue)) {
             mantissaError.textContent = 'Invalid decimal input.';
             isValid = false;
-        // placeholder muna since not yet sure for nan
         } else if (selectedFormat === 'nan' && mantissaValue !== '') {
             mantissaError.textContent = 'NaN should not have any value.';
             isValid = false;
@@ -89,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
                 isValid = false;
             }
-        // placeholder muna since not yet sure for nan
         } else if (exponentValue !== '') {
             exponentError.textContent = 'NaN should not have any value.';
             isValid = false;
@@ -109,12 +107,32 @@ document.addEventListener("DOMContentLoaded", () => {
         return isValid;
     };
 
+    // check the binary input validation
+    function isValidBinaryInput(value) {
+        const binaryRegex = /^[-+]?[01]+(\.[01]+)?$/;
+        if (!binaryRegex.test(value)) return false;
+
+        const dotIndex = value.indexOf('.');
+        if (dotIndex === -1) return true; 
+
+        // decimal point must not be in the most or least significant bit
+        if (dotIndex === 0 || dotIndex === value.length - 1) return false;
+
+        return true;
+    }
+
     function computeBinaryRepresentation() {
         const mantissaInput = document.getElementById('mantissa-input');
         const binaryEquivalentOutput = document.getElementById('binary-equivalent');
         const mantissaValue = mantissaInput.value.trim();
-
-        const binaryEquivalent = convertDecimalToBinary(mantissaValue);
+        const selectedFormat = inputType.value;
+    
+        let binaryEquivalent = '';
+        if (selectedFormat === 'binary') {
+            binaryEquivalent = mantissaValue.startsWith('-') || mantissaValue.startsWith('+') ? mantissaValue.slice(1) : mantissaValue;
+        } else {
+            binaryEquivalent = convertDecimalToBinary(mantissaValue);
+        }
         binaryEquivalentOutput.textContent = binaryEquivalent;
     }
     
@@ -127,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             computeSignBit();
             computeBinaryRepresentation();
+            // computeNormalizedBinary();
             // computeFinalExponentandEPrime();
         }
     });

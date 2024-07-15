@@ -1,4 +1,6 @@
-// Print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
+// separate js file for computation functions
+
+// print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
 function computeSignBit() {
     const mantissaInput = document.getElementById('mantissa-input');
     const signBitOutput = document.getElementById('sign-bit');
@@ -13,7 +15,7 @@ function computeSignBit() {
     signBitOutput.textContent = signBit;
 }
 
-// Function to convert the integer part of a decimal number to binary
+// convert the integer part of a decimal number to binary
 function integerToBinary(integerPart) {
     let binary = '';
     let num = parseInt(integerPart, 10);
@@ -27,7 +29,7 @@ function integerToBinary(integerPart) {
     return binary;
 }
 
-// Function to convert the fractional part of a decimal number to binary
+// convert the fractional part of a decimal number to binary
 function fractionalToBinary(fractionalPart) {
     let binary = '';
     let num = parseFloat('0.' + fractionalPart);
@@ -46,7 +48,7 @@ function fractionalToBinary(fractionalPart) {
     return binary;
 }
 
-// Function to handle the conversion process
+// handle the conversion process (combined integerToBinary and fractionalToBinary)
 function convertDecimalToBinary(decimalNumber) {
     const absoluteValue = decimalNumber.startsWith('-') ? decimalNumber.slice(1) : decimalNumber;
 
