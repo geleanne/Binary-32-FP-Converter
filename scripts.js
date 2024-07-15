@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mantissaError = document.getElementById('mantissa-error');    // error message for invalid decimal OR binary input
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
     const computeButton = document.getElementById('compute');           
+    const normalizedBinaryOutput = document.getElementById('normalized-binary');
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -99,6 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return isValid;
     };
 
+    // convertDecimalToBinary function from compute.js 
+    // then display the binary representation
+    function computeBinaryRepresentation() {
+        const mantissaValue = parseFloat(mantissaInput.value.trim());
+        const binaryRepresentation = convertDecimalToBinary(mantissaValue);
+        normalizedBinaryOutput.textContent = binaryRepresentation;
+    }
+
     // validation on compute button click
     computeButton.addEventListener('click', (event) => {
         const isValid = validateInputs();
@@ -107,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
         } else {
             computeSignBit();
+            computeBinaryRepresentation();
         }
     });
 });
