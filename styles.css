@@ -82,7 +82,7 @@ h2 {
 
 /* Input box */
 .input-box {
-    padding: 0px 20px 18px;
+    padding: 0px 20px 10px;
     background: #EDCEF1;
     margin: 1px 40px 1px;
     border-radius: 10px;
@@ -238,6 +238,7 @@ button:hover {
     font-size: 12px;
     margin-top: 5px;
     display: block;
+    padding-left: 2px;
 }
 
 /* Media Queries */

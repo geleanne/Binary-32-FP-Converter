@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const exponentLabel = document.getElementById('exponent-base');     // base-10 OR base-2
     const mantissaInput = document.getElementById('mantissa-input');    // decimal OR binary input
     const exponentInput = document.getElementById('exponent-input');    // exponent input
-    const container = document.getElementById('container');
+    const container = document.getElementById('container');  
     const sidebar = document.getElementById('sidebar');                 // sidebar toggle functionality
     const sidebarToggle = document.getElementById('sidebarToggle');     // sidebar toggle functionality
     const mantissaError = document.getElementById('mantissa-error');    // error message for invalid decimal OR binary input
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
-    const computeButton = document.getElementById('compute');
+    const computeButton = document.getElementById('compute');           
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mantissaLabelText = 'Decimal';
             placeholderText = 'Enter a decimal number';
             exponentLabelText = 'Exponent (Base-10)';
-        // not yet sure, placeholder muna
         } else if (selectedFormat === 'nan') {
             mantissaLabelText = 'NaN';
             placeholderText = 'Enter NaN value';
@@ -36,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
         mantissaLabel.textContent = mantissaLabelText;
         mantissaInput.placeholder = placeholderText;
         exponentLabel.textContent = exponentLabelText;
+        mantissaInput.value = '';
+        exponentInput.value = '';
+        mantissaError.textContent = '';
+        exponentError.textContent = '';
     });
 
     // event listener for sidebar toggle
@@ -51,35 +54,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // event listener for real-time validation of mantissa input
-    mantissaInput.addEventListener('input', () => {
-        // validate mantissa input
+    // validate mantissa and exponent inputs
+    const validateInputs = () => {
         const selectedFormat = inputType.value;
-        const value = mantissaInput.value;
+        const mantissaValue = mantissaInput.value.trim();
+        const exponentValue = exponentInput.value.trim();
+        let isValid = true;
 
-        if (selectedFormat === 'binary' && /[^01]/.test(value)) {
-            mantissaError.textContent = 'Invalid input. Please enter only binary numbers (0 or 1).';
-        } else if (selectedFormat === 'decimal' && isNaN(value)) {
-            mantissaError.textContent = 'Invalid input. Please enter a valid decimal number.';
-        } else {
-            mantissaError.textContent = '';
+        mantissaError.textContent = '';
+        exponentError.textContent = '';
+
+        if (mantissaValue === '') {
+            mantissaError.textContent = 'Mantissa cannot be empty.';
+            isValid = false;
+        } else if (selectedFormat === 'binary' && /[^01]/.test(mantissaValue)) {
+            mantissaError.textContent = 'Invalid binary input.';
+            isValid = false;
+        } else if (selectedFormat === 'decimal' && isNaN(mantissaValue)) {
+            mantissaError.textContent = 'Invalid decimal input.';
+            isValid = false;
+        } else if (selectedFormat === 'nan' && mantissaValue !== '') {
+            mantissaError.textContent = 'NaN should not have any value.';
+            isValid = false;
         }
-    });
 
-    // event listener for real-time validation of exponent input
-    exponentInput.addEventListener('input', () => {
-        const exponentValue = exponentInput.value;
-        if (exponentValue === '') {
-            exponentError.textContent = '';
-        } else if (!/^\d+$/.test(exponentValue)) {
-            exponentError.textContent = 'Invalid input. Please enter a whole exponent.';
-        } else {
-            exponentError.textContent = '';
+        if (selectedFormat !== 'nan') {
+            if (exponentValue === '') {
+                exponentError.textContent = 'Exponent cannot be empty.';
+                isValid = false;
+            } else if (!/^\d+$/.test(exponentValue)) {
+                exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
+                isValid = false;
+            }
+        } else if (exponentValue !== '') {
+            exponentError.textContent = 'NaN should not have any value.';
+            isValid = false;
         }
-    });
 
-    // event listener for compute button
-    computeButton.addEventListener('click', () => {
-        computeSignBit();
+        // clear sign bit output on invalid input
+        if (!isValid) {
+            document.getElementById('sign-bit').textContent = '';
+        }
+
+        return isValid;
+    };
+
+    // validation on compute button click
+    computeButton.addEventListener('click', (event) => {
+        const isValid = validateInputs();
+
+        if (!isValid) {
+            event.preventDefault();
+        } else {
+            computeSignBit();
+        }
     });
 });
