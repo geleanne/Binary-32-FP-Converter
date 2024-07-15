@@ -5,7 +5,55 @@ body {
     margin: 0;
 }
 
+/* Container */
+.container {
+    transition: margin-left 0.3s;
+}
+
+.container.shifted {
+    margin-left: 200px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: -200px;
+    height: 100%;
+    background: #f0f0f0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s, width 0.3s;
+}
+
+.sidebar.wide {
+    width: 200px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-top: 80px;
+    padding-left: 2px;
+    font-size: 13px;
+    text-align: center; 
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li:first-child {
+    font-weight: bold;
+    font-size: 16px;
+}
+
 /* Header */
+.sidebar-image {
+    position: absolute;
+    left: 23px;
+    top: 10px;
+    height: 38px;
+    cursor: pointer;
+}
+
 .header {
     padding: 1px;
     text-align: center;
@@ -13,7 +61,10 @@ body {
     color: white;
     font-size: 12px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
 /* Input box */
 .input-box {
@@ -96,7 +147,6 @@ button:hover {
     background-color: #8B2D81;
 }
 
-
 /* Process box */
 .process-box {
     padding: 10px 30px 30px;
@@ -105,14 +155,6 @@ button:hover {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-/* Process - 1st row */
-
-
-/* Process - 2nd row */
-
-
-
 
 /* Output box */
 .output-box {
