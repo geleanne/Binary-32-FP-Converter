@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
     const inputType = document.getElementById('input-type');
     const mantissaLabel = document.getElementById('mantissa-label');    // decimal OR binary OR NaN
     const exponentLabel = document.getElementById('exponent-base');     // base-10 OR base-2
@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const sidebarToggle = document.getElementById('sidebarToggle');     // sidebar toggle functionality
     const mantissaError = document.getElementById('mantissa-error');    // error message for invalid decimal OR binary input
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
+    const computeButton = document.getElementById('compute');
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -52,6 +53,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // event listener for real-time validation of mantissa input
     mantissaInput.addEventListener('input', () => {
+        // validate mantissa input
         const selectedFormat = inputType.value;
         const value = mantissaInput.value;
 
@@ -76,4 +78,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
+    // event listener for compute button
+    computeButton.addEventListener('click', () => {
+        computeSignBit();
+    });
 });
