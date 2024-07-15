@@ -17,7 +17,7 @@
             <li>Tolentino, Maxene Allison</li>
         </ul>
     </div>
-    
+
     <!-- Header -->
     <div class="header">
         <img src="sidebar.png" alt="Sidebar Image" class="sidebar-image" id="sidebarToggle">
@@ -46,10 +46,12 @@
                 <div class="input">
                     <label id="mantissa-label">Decimal</label>
                     <input type="text" id="mantissa-input" placeholder="Enter a decimal number">
+                    <span id="mantissa-error" class="error-message"></span>
                 </div>
                 <div class="input">
                     <label id="exponent-base">Exponent (Base- 10)</label>
-                    <input type="text" id="exponent" placeholder="Enter an exponent">
+                    <input type="text" id="exponent-input" placeholder="Enter an exponent">
+                    <span id="exponent-error" class="error-message"></span>
                 </div>
                 <div class="button">
                     <button id="compute">COMPUTE</button>

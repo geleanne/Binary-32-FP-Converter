@@ -186,3 +186,10 @@ button:hover {
     color: #888;
     text-align: center;
 }
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}

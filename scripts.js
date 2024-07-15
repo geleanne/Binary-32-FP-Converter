@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     const inputType = document.getElementById('input-type');
-    const mantissaLabel = document.getElementById('mantissa-label');
-    const mantissaInput = document.getElementById('mantissa-input');
-    const exponentLabel = document.getElementById('exponent-base');
-    const sidebar = document.getElementById('sidebar');
+    const mantissaLabel = document.getElementById('mantissa-label');    // decimal OR binary OR NaN
+    const exponentLabel = document.getElementById('exponent-base');     // base-10 OR base-2
+    const mantissaInput = document.getElementById('mantissa-input');    // decimal OR binary input
+    const exponentInput = document.getElementById('exponent-input');    // exponent input
     const container = document.getElementById('container');
-    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');                 // sidebar toggle functionality
+    const sidebarToggle = document.getElementById('sidebarToggle');     // sidebar toggle functionality
+    const mantissaError = document.getElementById('mantissa-error');    // error message for invalid decimal OR binary input
+    const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
 
+    // event listener for input type change
     inputType.addEventListener('change', function() {
         const selectedFormat = inputType.value;
         let mantissaLabelText = 'Decimal';
@@ -21,6 +25,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             mantissaLabelText = 'Decimal';
             placeholderText = 'Enter a decimal number';
             exponentLabelText = 'Exponent (Base-10)';
+        // not yet sure, placeholder muna
         } else if (selectedFormat === 'nan') {
             mantissaLabelText = 'NaN';
             placeholderText = 'Enter NaN value';
@@ -32,6 +37,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         exponentLabel.textContent = exponentLabelText;
     });
 
+    // event listener for sidebar toggle
     sidebarToggle.addEventListener('click', () => {
         if (sidebar.style.left === "0px") {
             sidebar.style.left = "-200px";
@@ -41,6 +47,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
             sidebar.style.left = "0px";
             sidebar.classList.add('wide');
             container.classList.add('shifted');
+        }
+    });
+
+    // event listener for real-time validation of mantissa input
+    mantissaInput.addEventListener('input', () => {
+        if (isNaN(mantissaInput.value)) {
+            mantissaError.textContent = 'Invalid input. Please enter a valid number.';
+        } else {
+            mantissaError.textContent = '';
+        }
+    });
+
+    // event listener for real-time validation of exponent input
+    exponentInput.addEventListener('input', () => {
+        if (isNaN(exponentInput.value)) {
+            exponentError.textContent = 'Invalid exponent. Please enter a whole exponent.';
+        } else {
+            exponentError.textContent = '';
         }
     });
 });
