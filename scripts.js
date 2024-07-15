@@ -52,8 +52,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // event listener for real-time validation of mantissa input
     mantissaInput.addEventListener('input', () => {
-        if (isNaN(mantissaInput.value)) {
-            mantissaError.textContent = 'Invalid input. Please enter a valid number.';
+        const selectedFormat = inputType.value;
+        const value = mantissaInput.value;
+
+        if (selectedFormat === 'binary' && /[^01]/.test(value)) {
+            mantissaError.textContent = 'Invalid input. Please enter only binary numbers (0 or 1).';
+        } else if (selectedFormat === 'decimal' && isNaN(value)) {
+            mantissaError.textContent = 'Invalid input. Please enter a valid decimal number.';
         } else {
             mantissaError.textContent = '';
         }
@@ -61,10 +66,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // event listener for real-time validation of exponent input
     exponentInput.addEventListener('input', () => {
-        if (isNaN(exponentInput.value)) {
-            exponentError.textContent = 'Invalid exponent. Please enter a whole exponent.';
+        const exponentValue = exponentInput.value;
+        if (exponentValue === '') {
+            exponentError.textContent = '';
+        } else if (!/^\d+$/.test(exponentValue)) {
+            exponentError.textContent = 'Invalid input. Please enter a whole exponent.';
         } else {
             exponentError.textContent = '';
         }
     });
+
 });
