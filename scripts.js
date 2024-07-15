@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
     const computeButton = document.getElementById('compute');           
     const binaryEquivalentOutput = document.getElementById('binary-equivalent');
+    const normalizedBinaryOutput = document.getElementById('normalized-binary'); // normalized binary output
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -121,13 +122,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
+    // handles the binary equivalent output
     function computeBinaryRepresentation() {
         const mantissaInput = document.getElementById('mantissa-input');
-        const binaryEquivalentOutput = document.getElementById('binary-equivalent');
         const mantissaValue = mantissaInput.value.trim();
         const selectedFormat = inputType.value;
     
         let binaryEquivalent = '';
+        // if the input is binary, just display the input value on the binary equivalent output
         if (selectedFormat === 'binary') {
             binaryEquivalent = mantissaValue.startsWith('-') || mantissaValue.startsWith('+') ? mantissaValue.slice(1) : mantissaValue;
         } else {
@@ -135,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         binaryEquivalentOutput.textContent = binaryEquivalent;
     }
-    
+
     // validation on compute button click
     computeButton.addEventListener('click', (event) => {
         const isValid = validateInputs();
@@ -145,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             computeSignBit();
             computeBinaryRepresentation();
-            // computeNormalizedBinary();
+            computeNormalizedBinary();
             // computeFinalExponentandEPrime();
         }
     });

@@ -61,3 +61,33 @@ function convertDecimalToBinary(decimalNumber) {
         return integerToBinary(absoluteValue);
     }
 }
+
+// normalize the binary representation
+function computeNormalizedBinary() {
+    const binaryEquivalentOutput = document.getElementById('binary-equivalent');
+    const normalizedBinaryOutput = document.getElementById('normalized-binary');
+    const binaryEquivalent = binaryEquivalentOutput.textContent;
+
+    if (!binaryEquivalent) {
+        normalizedBinaryOutput.textContent = '';
+        return;
+    }
+
+    const [integerPart, fractionalPart] = binaryEquivalent.split('.');
+    let normalizedBinary = '';
+    let exponent = 0;
+
+    if (integerPart && integerPart !== '0') {
+        // Move the point left to get the first "1" on the leftmost side
+        const firstOneIndex = integerPart.indexOf('1');
+        exponent = integerPart.length - firstOneIndex - 1;
+        normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${fractionalPart || ''}`;
+    } else if (fractionalPart) {
+        // Move the point right to get the first "1" on the leftmost side
+        const firstOneIndex = fractionalPart.indexOf('1');
+        exponent = -(firstOneIndex + 1);
+        normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
+    }
+
+    normalizedBinaryOutput.textContent = normalizedBinary;
+}
