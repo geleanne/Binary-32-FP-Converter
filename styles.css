@@ -139,6 +139,17 @@ input[type="text"] {
     background: #F2ECEC;
 }
 
+input[type="text"]:focus, 
+select:focus, 
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(189, 83, 178, 0.5);
+}
+
+input[type="text"]:focus {
+    background: #FFF7FB;
+}
+
 .button {
     display: flex;
     justify-content: center;

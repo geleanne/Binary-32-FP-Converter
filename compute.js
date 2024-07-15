@@ -19,18 +19,18 @@ function convertDecimalToBinary(decimalNumber) {
     let integerPart = Math.abs(Math.floor(decimalNumber));
     let fractionalPart = Math.abs(decimalNumber) - integerPart;
 
-    // Convert integer part to binary
+    // convert integer part to binary
     while (integerPart > 0) {
         binary = (integerPart % 2) + binary;
         integerPart = Math.floor(integerPart / 2);
     }
 
-    // Ensure at least one zero is printed for integer part
+    // ensure at least one zero is printed for integer part
     if (binary === '') {
         binary = '0';
     }
 
-    // Convert fractional part to binary
+    // convert fractional part to binary
     if (fractionalPart > 0) {
         binary += '.';
         while (fractionalPart > 0) {

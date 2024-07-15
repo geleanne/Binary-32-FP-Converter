@@ -95,9 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
             isValid = false;
         }
 
-        // clear sign bit output on invalid input
+        // clear process outputs on invalid input
         if (!isValid) {
+            document.getElementById('binary-equivalent').textContent = '';
+            document.getElementById('normalized-binary').textContent = '';
+            document.getElementById('final-exponent').textContent = '';
             document.getElementById('sign-bit').textContent = '';
+            document.getElementById('e-prime').textContent = '';
+            document.getElementById('significand').textContent = '';
+            document.getElementById('special-case').textContent = '';
         }
 
         return isValid;
@@ -108,8 +114,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function computeBinaryRepresentation() {
         const mantissaValue = parseFloat(mantissaInput.value.trim());
         const binaryRepresentation = convertDecimalToBinary(mantissaValue);
-        
+        // const normalizedBinary = normalizeBinary(binaryRepresentation);
+
         binaryEquivalentOutput.textContent = binaryRepresentation;
+        // document.getElementById('normalized-binary').textContent = normalizedBinary;
     }
 
     // validation on compute button click
@@ -121,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             computeSignBit();
             computeBinaryRepresentation();
+            // computeFinalExponentandEPrime();
         }
     });
 });
