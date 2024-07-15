@@ -101,3 +101,17 @@ function computeFinalExponent() {
 
     finalExponentOutput.textContent = finalExponent;
 }
+
+// compute the E' value
+function computeEPrime() {
+    const finalExponentOutput = document.getElementById('final-exponent');
+    const ePrimeOutput = document.getElementById('e-prime');
+    const finalExponent = parseInt(finalExponentOutput.textContent, 10);
+
+    if (!isNaN(finalExponent)) {
+        const ePrime = finalExponent + 127;
+        ePrimeOutput.textContent = ePrime;
+    } else {
+        ePrimeOutput.textContent = '';
+    }
+}
