@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
     const computeButton = document.getElementById('compute');           
     const binaryEquivalentOutput = document.getElementById('binary-equivalent');
-    const normalizedBinaryOutput = document.getElementById('normalized-binary'); // normalized binary output
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
