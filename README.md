@@ -4,6 +4,17 @@ This is a web-based IEEE-754 Binary-32 Floating-Point Converter that allows user
 
 This project is developed by Group 8 (S14) as a requirement for the CSARCH2 course.
 
+
+
+![image](https://github.com/GenuinoVitto/iDOL_Taxi/assets/78674453/b1c3a2d6-4c55-490c-a99d-4a50f391a094)
+
+![Static Badge](https://img.shields.io/badge/HTML-CSS-Javascript)
+![Static Badge](https://img.shields.io/badge/JavaScript-yellow)
+![Static Badge](https://img.shields.io/badge/Vercel-blue)
+
+
+
+
 # Local Set-up and Usage
 1. Ensure you have Node.js and Git installed on your machine.
 2. Clone the Repository by executing 'git clone https://github.com/geleanne/Binary-32-FP-Converter.git'
