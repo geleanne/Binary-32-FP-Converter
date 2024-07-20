@@ -1,20 +1,5 @@
 // separate js file for computation functions
 
-// print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
-function computeSignBit() {
-  const mantissaInput = document.getElementById("mantissa-input");
-  const signBitOutput = document.getElementById("sign-bit");
-  const mantissaValue = mantissaInput.value;
-
-  if (!mantissaValue) {
-    signBitOutput.textContent = "";
-    return;
-  }
-
-  const signBit = mantissaValue.startsWith("-") ? 1 : 0;
-  signBitOutput.textContent = signBit;
-}
-
 // convert the integer part of a decimal number to binary
 function integerToBinary(integerPart) {
   let binary = "";
@@ -97,8 +82,6 @@ function computeNormalizedBinary() {
     return { normalizedBinary, exponent }; // return both normalized binary string and exponent
 }
 
-
-
 // handle the final exponent output
 function computeFinalExponent() {
     const exponentInput = document.getElementById("exponent-input");
@@ -112,7 +95,22 @@ function computeFinalExponent() {
     trialQuickPrint('Final Exponent : ' + finalExponent);
     finalExponentOutput.textContent = finalExponent;
 }
+// print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
+function computeSignBit() {
+    const mantissaInput = document.getElementById("mantissa-input");
+    const signBitOutput = document.getElementById("sign-bit");
+    const mantissaValue = mantissaInput.value;
+  
+    if (!mantissaValue) {
+      signBitOutput.textContent = "";
+      return;
+    }
+  
+    const signBit = mantissaValue.startsWith("-") ? 1 : 0;
+    signBitOutput.textContent = signBit;
 
+    return signBit;
+}
 
 // compute the E' value
 function computeEPrime() {
@@ -128,6 +126,7 @@ function computeEPrime() {
   } else {
     ePrimeOutput.textContent = "";
   }
+  return eprimeToBinary;
 }
 
 // significand Fractional Part computation
@@ -156,10 +155,11 @@ function computeSPF() {
     trialQuickPrint('Count Final Decimal: ' + decimalPart.length);
     trialQuickPrint('Complete 24 SFP: ' + decimalPart);
     significandPF.textContent = decimalPart;
+
+    return decimalPart;
 }
 
-
-//Fomrats binary by xxxx xxxx
+//Fomrats binary by xxxx xxxx ....
 function separateFormatBinary(bin) {
     let formattedBinary = "";
     for (let i = 0; i < bin.length; i += 4) {
@@ -172,8 +172,18 @@ function separateFormatBinary(bin) {
     return formattedBinary;
   }
 
+// Quick Console Printing
 function trialQuickPrint(n) {
   console.log(n);
+}
+
+//Final Answer in Binary
+function finalAnswerBinary(){
+    const faBinary = document.getElementById("binary-output");
+
+    let finalAnswer = computeSignBit() + ' ' + computeEPrime() + ' ' + computeSPF();
+    trialQuickPrint('Final Answer in Binary : ' + finalAnswer);
+    faBinary.textContent = finalAnswer;
 }
 
 

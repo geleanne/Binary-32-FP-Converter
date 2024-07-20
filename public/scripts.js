@@ -149,7 +149,8 @@ document.addEventListener("DOMContentLoaded", () => {
             computeFinalExponent();
             computeEPrime();
             computeSPF();
-            
+            finalAnswerBinary();
+
         }
     });
 });
