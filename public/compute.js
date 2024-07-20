@@ -86,17 +86,15 @@ function computeNormalizedBinary() {
     normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${
       fractionalPart || ""
     }`;
-
   } else if (fractionalPart) {
     const firstOneIndex = fractionalPart.indexOf("1");
     exponent = -(firstOneIndex + 1);
     normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
   }
-  trialQuickPrint('This is normBin: ' + normalizedBinary);
-  significandFractionalPart(normalizedBinary);
+  trialQuickPrint("This is normBin: " + normalizedBinary);
 
   normalizedBinaryOutput.textContent = normalizedBinary;
-  return exponent; // return the exponent count for the computeFinalExponent()
+  return normalizedBinary; // return the exponent count for the computeFinalExponent()
 }
 
 // handle the final exponent output
@@ -119,32 +117,54 @@ function computeEPrime() {
   if (!isNaN(finalExponent)) {
     const ePrime = finalExponent + 127;
     eprimeToBinary = integerToBinary(ePrime);
-    trialQuickPrint(ePrime);
-    ePrimeOutput.textContent = separateFormatBinary(eprimeToBinary);
+    trialQuickPrint(ePrime);    
+    ePrimeOutput.textContent = eprimeToBinary;
   } else {
     ePrimeOutput.textContent = "";
   }
 }
 
-function trialQuickPrint(n) {
-    console.log(n);
-  }
+// significand Fractional Part
+function computeSPF() {
+    // get decimal Part of normalized binary
+    const significandPF = document.getElementById("significand");
+    let normBin = computeNormalizedBinary();
+    trialQuickPrint('Carried: ' + normBin);
+
+    let decimalPart = normBin.split(".")[1];
+    var ctr = decimalPart.length;
+
+    trialQuickPrint("Fract Part Raw : " + decimalPart);
+    trialQuickPrint("Count decimal num : " + ctr);
+
+    while(ctr < 24){
+        decimalPart += '0';
+        ctr++;
+    }
+    trialQuickPrint('Final Count' + ctr);
+    trialQuickPrint('Count Final Decimal : ' + decimalPart.length)
+    trialQuickPrint('Complete 24 SFP : ' + decimalPart);
+    significandPF.textContent = decimalPart;
+}
+
 
 //Fomrats binary by xxxx xxxx
 function separateFormatBinary(bin) {
     let formattedBinary = "";
     for (let i = 0; i < bin.length; i += 4) {
-        if (i > 0) {
+      if (i > 0) {
         formattedBinary += " ";
-        }
-        formattedBinary += bin.substring(i, i + 4);
+      }
+      formattedBinary += bin.substring(i, i + 4);
     }
-    trialQuickPrint('Divide it : ' + formattedBinary);
+    trialQuickPrint("Divide it : " + formattedBinary);
     return formattedBinary;
+  }
+
+function trialQuickPrint(n) {
+  console.log(n);
 }
 
-function significandFractionalPart(fractPart){
-    
 
-    return
-}
+
+

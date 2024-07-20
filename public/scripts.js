@@ -148,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
             computeBinaryRepresentation();
             computeFinalExponent();
             computeEPrime();
+            computeSPF();
+            
         }
     });
 });
