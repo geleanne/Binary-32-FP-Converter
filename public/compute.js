@@ -110,8 +110,14 @@ function computeEPrime() {
 
     if (!isNaN(finalExponent)) {
         const ePrime = finalExponent + 127;
-        ePrimeOutput.textContent = ePrime;
+        eprimeToBinary = integerToBinary(ePrime);
+        trialQuickPrint(ePrime);
+        ePrimeOutput.textContent = eprimeToBinary;
     } else {
         ePrimeOutput.textContent = '';
     }
+}
+
+function trialQuickPrint(n){
+    console.log('Trial Print : ' + n)
 }
