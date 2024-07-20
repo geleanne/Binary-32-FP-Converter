@@ -67,46 +67,52 @@ function convertDecimalToBinary(decimalNumber) {
 
 // normalize the binary representation
 function computeNormalizedBinary() {
-  const binaryEquivalentOutput = document.getElementById("binary-equivalent");
-  const normalizedBinaryOutput = document.getElementById("normalized-binary");
-  const binaryEquivalent = binaryEquivalentOutput.textContent;
+    const binaryEquivalentOutput = document.getElementById("binary-equivalent");
+    const normalizedBinaryOutput = document.getElementById("normalized-binary");
+    const binaryEquivalent = binaryEquivalentOutput.textContent;
 
-  if (!binaryEquivalent) {
-    normalizedBinaryOutput.textContent = "";
-    return 0;
-  }
+    if (!binaryEquivalent) {
+        normalizedBinaryOutput.textContent = "";
+        return { normalizedBinary: "", exponent: 0 };
+    }
 
-  const [integerPart, fractionalPart] = binaryEquivalent.split(".");
-  let normalizedBinary = "";
-  let exponent = 0;
+    const [integerPart, fractionalPart] = binaryEquivalent.split(".");
+    let normalizedBinary = "";
+    let exponent = 0;
 
-  if (integerPart && integerPart !== "0") {
-    const firstOneIndex = integerPart.indexOf("1");
-    exponent = integerPart.length - firstOneIndex - 1;
-    normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${
-      fractionalPart || ""
-    }`;
-  } else if (fractionalPart) {
-    const firstOneIndex = fractionalPart.indexOf("1");
-    exponent = -(firstOneIndex + 1);
-    normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
-  }
-  trialQuickPrint("This is normBin: " + normalizedBinary);
+    if (integerPart && integerPart !== "0") {
+        const firstOneIndex = integerPart.indexOf("1");
+        exponent = integerPart.length - firstOneIndex - 1;
+        normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${fractionalPart || ""}`;
+    } else if (fractionalPart) {
+        const firstOneIndex = fractionalPart.indexOf("1");
+        exponent = -(firstOneIndex + 1);
+        normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
+    }
 
-  normalizedBinaryOutput.textContent = normalizedBinary;
-  return normalizedBinary; // return the exponent count for the computeFinalExponent()
+    trialQuickPrint("This is normBin: " + normalizedBinary);
+    trialQuickPrint("Exponent shift count: " + exponent);
+    normalizedBinaryOutput.textContent = normalizedBinary;
+
+    return { normalizedBinary, exponent }; // return both normalized binary string and exponent
 }
+
+
 
 // handle the final exponent output
 function computeFinalExponent() {
-  const exponentInput = document.getElementById("exponent-input");
-  const finalExponentOutput = document.getElementById("final-exponent");
-  const inputExponent = parseInt(exponentInput.value, 10);
-  const normalizedExponent = computeNormalizedBinary();
-  const finalExponent = inputExponent + normalizedExponent;
+    const exponentInput = document.getElementById("exponent-input");
+    const finalExponentOutput = document.getElementById("final-exponent");
+    const inputExponent = parseInt(exponentInput.value, 10);
 
-  finalExponentOutput.textContent = finalExponent;
+    const { normalizedBinary, exponent } = computeNormalizedBinary();
+    const finalExponent = inputExponent + exponent;
+
+    trialQuickPrint('Exponent : ' + inputExponent);
+    trialQuickPrint('Final Exponent : ' + finalExponent);
+    finalExponentOutput.textContent = finalExponent;
 }
+
 
 // compute the E' value
 function computeEPrime() {
@@ -124,26 +130,31 @@ function computeEPrime() {
   }
 }
 
-// significand Fractional Part
+// significand Fractional Part computation
 function computeSPF() {
-    // get decimal Part of normalized binary
+    // Get the significand element
     const significandPF = document.getElementById("significand");
-    let normBin = computeNormalizedBinary();
-    trialQuickPrint('Carried: ' + normBin);
 
-    let decimalPart = normBin.split(".")[1];
-    var ctr = decimalPart.length;
+    // Compute normalized binary and extract its components
+    const { normalizedBinary } = computeNormalizedBinary();
+    trialQuickPrint('Carried: ' + normalizedBinary);
 
-    trialQuickPrint("Fract Part Raw : " + decimalPart);
-    trialQuickPrint("Count decimal num : " + ctr);
+    // Extract the decimal part from the normalized binary
+    let decimalPart = normalizedBinary.split(".")[1] || "";
+    let ctr = decimalPart.length;
 
-    while(ctr < 24){
+    trialQuickPrint("Fract Part Raw: " + decimalPart);
+    trialQuickPrint("Count decimal num: " + ctr);
+
+    // Ensure the decimal part has exactly 24 bits
+    while (ctr < 24) {
         decimalPart += '0';
         ctr++;
     }
-    trialQuickPrint('Final Count' + ctr);
-    trialQuickPrint('Count Final Decimal : ' + decimalPart.length)
-    trialQuickPrint('Complete 24 SFP : ' + decimalPart);
+
+    trialQuickPrint('Final Count: ' + ctr);
+    trialQuickPrint('Count Final Decimal: ' + decimalPart.length);
+    trialQuickPrint('Complete 24 SFP: ' + decimalPart);
     significandPF.textContent = decimalPart;
 }
 
