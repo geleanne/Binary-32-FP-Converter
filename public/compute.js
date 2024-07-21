@@ -17,7 +17,7 @@ function integerToBinary(integerPart) {
     binary = "0" + binary;
   }
 
-  trialQuickPrint(binary);
+  trialQuickPrint('Converting to Binary : ' + binary);
   return binary;
 }
 
