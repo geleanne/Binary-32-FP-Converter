@@ -122,8 +122,11 @@ function computeEPrime() {
 
   if (!isNaN(finalExponent)) {
     const ePrime = finalExponent + 127;
+    trialQuickPrint("Final Exponent : " + finalExponent);
     eprimeToBinary = integerToBinary(ePrime);
-    trialQuickPrint("Count Eprime : " + ePrime.length);
+    trialQuickPrint("Eprime Length : " + ePrime.length);
+    trialQuickPrint("Eprime value : " + ePrime);
+    trialQuickPrint("Eprime to Binary : " + eprimeToBinary);
     ePrimeOutput.textContent = eprimeToBinary;
   } else {
     ePrimeOutput.textContent = "";
