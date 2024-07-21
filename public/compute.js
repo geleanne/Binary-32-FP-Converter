@@ -5,15 +5,22 @@ function integerToBinary(integerPart) {
   let binary = "";
   let num = parseInt(integerPart, 10);
 
-  if (num === 0) return "0";
+  if (num === 0) return "00000000";
 
   while (num > 0) {
     binary = (num % 2) + binary;
     num = Math.floor(num / 2);
   }
+  
+  // Pad the binary string to 8 bits
+  while (binary.length < 8) {
+    binary = "0" + binary;
+  }
+
   trialQuickPrint(binary);
   return binary;
 }
+
 
 // convert the fractional part of a decimal number to binary
 function fractionalToBinary(fractionalPart) {
