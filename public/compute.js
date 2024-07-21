@@ -121,7 +121,7 @@ function computeEPrime() {
   if (!isNaN(finalExponent)) {
     const ePrime = finalExponent + 127;
     eprimeToBinary = integerToBinary(ePrime);
-    trialQuickPrint(ePrime);    
+    trialQuickPrint('Count Eprime : ' + ePrime.length);    
     ePrimeOutput.textContent = eprimeToBinary;
   } else {
     ePrimeOutput.textContent = "";
@@ -151,7 +151,7 @@ function computeSPF() {
         ctr++;
     }
 
-    trialQuickPrint('Final Count: ' + ctr);
+    trialQuickPrint('Final Count SPF: ' + ctr);
     trialQuickPrint('Count Final Decimal: ' + decimalPart.length);
     trialQuickPrint('Complete 24 SFP: ' + decimalPart);
     significandPF.textContent = decimalPart;
@@ -184,8 +184,24 @@ function finalAnswerBinary(){
     let finalAnswer = computeSignBit() + ' ' + computeEPrime() + ' ' + computeSPF();
     trialQuickPrint('Final Answer in Binary : ' + finalAnswer);
     faBinary.textContent = finalAnswer;
+
+    return finalAnswer;
 }
 
+
+function finaAnswrHex(){
+  const faHex = document.getElementById("hex-output");
+  
+  let faBin = finalAnswerBinary();
+  trialQuickPrint('Carried FAB : ' + faBin);
+  let result = faBin.replace(/\s+/g, '');  
+  let ctr = result.length;
+  trialQuickPrint('No space count :' + ctr + '\n See result no space : ' + result);
+
+  result = separateFormatBinary(result);
+
+  faHex.textContent = result;
+}
 
 
 

@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
             computeEPrime();
             computeSPF();
             finalAnswerBinary();
+            finaAnswrHex();
 
         }
     });
