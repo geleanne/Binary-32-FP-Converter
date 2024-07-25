@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             computeSPF();
             finalAnswerBinary();
             finaAnswrHex();
-
+            computeSpecialCase();
         }
     });
 });

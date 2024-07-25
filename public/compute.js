@@ -287,3 +287,39 @@ function finaAnswrHex() {
 
   faHex.textContent = result;
 }
+
+// special case field
+function computeSpecialCase() {
+  const specialCaseOutput = document.getElementById("special-case");
+  const mantissaValue = document.getElementById("mantissa-input").value.trim();
+  const exponentValue = parseInt(document.getElementById("exponent-input").value.trim(), 10);
+
+  let specialCase = "";
+
+  if (mantissaValue.toLowerCase() === "nan") {
+      specialCase = "Not a Number (NaN)";
+  } else if (mantissaValue === "0" && exponentValue === 0) {
+      specialCase = "Zero";
+  } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
+      specialCase = "Infinity";
+  } else {
+      const signBit = computeSignBit();
+      const { normalizedBinary, exponent } = computeNormalizedBinary();
+      const ePrime = computeEPrime();
+
+      if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
+          specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
+      } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
+          specialCase = "NaN";
+      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
+          specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
+      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
+          specialCase = "Denormalized";
+      } else {
+          specialCase = "Normalized";
+      }
+  }
+
+  specialCaseOutput.textContent = specialCase;
+  trialQuickPrint("Special Case: " + specialCase);
+}
