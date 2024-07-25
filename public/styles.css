@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    padding: 0;
+    margin: 0;
+}
+
+/* H2: "INPUT", "PROCESS", and "OUTPUT" */
+h2 {
+    color: #BD53B2; 
+}
+
+.process-text h2,
+.output-text h2 {
+    padding: 10px 0;
+    margin: 0; 
+}
+
+/* Container */
+.container {
+    transition: margin-left 0.3s;
+    padding: 20px;
+}
+
+.container.shifted {
+    margin-left: 200px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: -200px;
+    height: 100%;
+    background: #f0f0f0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s, width 0.3s;
+}
+
+.sidebar.wide {
+    width: 200px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-top: 80px;
+    padding-left: 2px;
+    font-size: 13px;
+    text-align: center; 
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li:first-child {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Header */
+.sidebar-image {
+    position: absolute;
+    left: 23px;
+    top: 10px;
+    height: 38px;
+    cursor: pointer;
+}
+
+.header {
+    padding: 1px;
+    text-align: center;
+    background: #BD53B2;
+    color: white;
+    font-size: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Input box */
+.input-box {
+    padding: 0px 20px 10px;
+    background: #EDCEF1;
+    margin: 1px 40px 1px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input - 1st row */
+.input-first-row {
+    display: flex;
+}
+
+.input-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.input-select select {
+    padding: 10px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background-color: #BD53B2;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Input - 2nd row */
+.input-second-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-left: 2px;
+    font-size: 15px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background: #F2ECEC;
+}
+
+input[type="text"]:focus, 
+select:focus, 
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(189, 83, 178, 0.5);
+}
+
+input[type="text"]:focus {
+    background: #FFF7FB;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #BD53B2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #8B2D81;
+}
+
+/* Process box */
+.process-box {
+    padding: 1px 20px 5px;
+    background: #EDCEF1;
+    margin: 12px 40px 1px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.process-first-row {
+    margin-bottom: 10px;
+}
+
+.process-second-row,
+.process-third-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.process-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.process-field label {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.process-output {
+    padding: 8px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background: #DDBDE1;
+    height: 20px;
+}
+
+/* Output box */
+.output-box {
+    padding: 1px 20px 15px;
+    background: #EDCEF1;
+    margin: 12px 40px 1px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.output-second-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.output {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.output-placeholder {
+    padding: 20px;
+    border: 1px solid #BD53B2;
+    border-radius: 4px;
+    background: #F2ECEC;
+    color: #160303;
+    text-align: center;
+}
+
+/* Error message */
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    padding-left: 2px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .input-second-row,
+    .process-second-row,
+    .process-third-row,
+    .output-second-row {
+        flex-direction: column;
+    }
+}

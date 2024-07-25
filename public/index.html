@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEEE-754 Binary-32 Floating-Point Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
+    <script src="compute.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li>S14 Group 8</li>
+            <li>Atienza, Marielle Angelene</li>
+            <li>Ong, Barron Brandon</li>
+            <li>Rivera, Jose Carlos</li>
+            <li>Tolentino, Maxene Allison</li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <img src="sidebar.png" alt="Sidebar Image" class="sidebar-image" id="sidebarToggle">
+        <h1>IEEE-754 Binary-32 Floating-Point Converter</h1>
+    </div>
+
+    <!-- Container -->
+    <div class="container" id="container">
+        <!-- Input -->
+        <div class="input-box">
+            <!-- 1st row: "INPUT" and drop down button -->
+            <div class="input-first-row">
+                <div class="input-text">
+                    <h2>INPUT</h2>
+                </div>
+                <div class="input-select">
+                    <select id="input-type">
+                        <option value="decimal">Decimal</option>
+                        <option value="binary">Binary</option>
+                        <option value="nan">NaN</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 2nd row: Input fields and COMPUTE button -->
+            <div class="input-second-row">
+                <div class="input">
+                    <label id="mantissa-label">Decimal</label>
+                    <input type="text" id="mantissa-input" placeholder="Enter a decimal number">
+                    <span id="mantissa-error" class="error-message"></span>
+                </div>
+                <div class="input">
+                    <label id="exponent-base">Exponent (Base- 10)</label>
+                    <input type="text" id="exponent-input" placeholder="Enter an exponent">
+                    <span id="exponent-error" class="error-message"></span>
+                </div>
+                <div class="button">
+                    <button id="compute">COMPUTE</button>
+                </div>                
+            </div>
+        </div>
+
+<!-- Process -->
+<div class="process-box">
+    <!-- 1st row:  -->
+    <div class="process-first-row">
+        <div class="process-text">
+            <h2>PROCESS</h2>
+        </div>
+    </div> 
+
+    <!-- 2nd row:  -->
+    <!--  remove some boxes if necessary -->     
+    <div class="process-second-row">
+        <div class="process-field">
+            <label>Binary Equivalent</label>
+            <div id="binary-equivalent" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Normalized Binary</label>
+            <div id="normalized-binary" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Final Exponent</label>
+            <div id="final-exponent" class="process-output"></div>
+        </div>
+    </div>
+
+    <!-- 3rd row:  -->
+    <!--  remove some boxes if necessary -->     
+    <div class="process-third-row">
+        <div class="process-field">
+            <label>Sign Bit</label>
+            <div id="sign-bit" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>E'</label>
+            <div id="e-prime" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Significand Fractional Part</label>
+            <div id="significand" class="process-output"></div>
+        </div>
+        <div class="process-field">
+            <label>Special Case</label>
+            <div id="special-case" class="process-output"></div>
+        </div>
+    </div>
+</div>
+
+        <!-- Output -->
+        <div class="output-box">
+            <!-- 1st row: "OUTPUT" -->
+            <div class="output-first-row">
+                <div class="output-text">
+                    <h2>OUTPUT</h2>
+                </div>
+            </div> 
+            <!-- 2nd row: final answers -->
+            <div class="output-second-row">
+                <div class="output">
+                    <label id="final-answer">Final Answer (Binary)</label>
+                    <div id="binary-output" class="output-placeholder"></div>
+                </div>
+                <div class="output">
+                    <label id="final-answer">Final Answer (Hex)</label>
+                    <div id="hex-output" class="output-placeholder"></div>
+                </div>
+                <div class="button">
+                    <button id="export">EXPORT</button>
+                </div>                
+            </div>
+        </div> 
+    </div>
+</body>
+</html>
