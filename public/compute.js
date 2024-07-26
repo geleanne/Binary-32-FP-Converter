@@ -84,6 +84,16 @@ function computeNormalizedBinary() {
     normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
   }
 
+  const exponentInput = document.getElementById("exponent-input");
+  const inputExponent = parseInt(exponentInput.value, 10);
+  const finalExponent = inputExponent + exponent;
+
+  if (finalExponent < -126 || finalExponent > 127) {
+    const shiftAmount = -126 - finalExponent;
+    normalizedBinary = `0.${"0".repeat(shiftAmount-1)}${normalizedBinary.replace(".", "")}`;
+    exponent = -126;
+  }
+
   trialQuickPrint("This is normBin: " + normalizedBinary);
   trialQuickPrint("Exponent shift count: " + exponent);
   normalizedBinaryOutput.textContent = normalizedBinary;
@@ -98,12 +108,22 @@ function computeFinalExponent() {
   const inputExponent = parseInt(exponentInput.value, 10);
 
   const { normalizedBinary, exponent } = computeNormalizedBinary();
-  const finalExponent = inputExponent + exponent;
+  let finalExponent = inputExponent + exponent;  
 
   trialQuickPrint("Exponent : " + inputExponent);
+
+  if (isNaN(finalExponent)) {
+    finalExponent = 0;
+  } else if (finalExponent < -126) {
+    finalExponent = -126;
+  } else if (finalExponent > 127) {
+    finalExponent = 127;
+  }
+
   trialQuickPrint("Final Exponent : " + finalExponent);
   finalExponentOutput.textContent = finalExponent;
 }
+
 // print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
 function computeSignBit() {
   const mantissaInput = document.getElementById("mantissa-input");
@@ -138,6 +158,7 @@ function computeEPrime() {
   } else {
     ePrimeOutput.textContent = "";
   }
+
   return eprimeToBinary;
 }
 
@@ -220,54 +241,22 @@ function finalAnswerBinary() {
 function createMap(um) {
   let cv = "";
   switch (um) {
-    case "0000":
-      cv += "0";
-      break;
-    case "0001":
-      cv += "1";
-      break;
-    case "0010":
-      cv += "2";
-      break;
-    case "0011":
-      cv += "3";
-      break;
-    case "0100":
-      cv += "4";
-      break;
-    case "0101":
-      cv += "5";
-      break;
-    case "0110":
-      cv += "6";
-      break;
-    case "0111":
-      cv += "7";
-      break;
-    case "1000":
-      cv += "8";
-      break;
-    case "1001":
-      cv += "9";
-      break;
-    case "1010":
-      cv += "A";
-      break;
-    case "1011":
-      cv += "B";
-      break;
-    case "1100":
-      cv += "C";
-      break;
-    case "1101":
-      cv += "D";
-      break;
-    case "1101":
-      cv += "E";
-      break;
-    case "1111":
-      cv += "F";
-      break;
+    case "0000": cv = "0"; break;
+    case "0001": cv = "1"; break;
+    case "0010": cv = "2"; break;
+    case "0011": cv = "3"; break;
+    case "0100": cv = "4"; break;
+    case "0101": cv = "5"; break;
+    case "0110": cv = "6"; break;
+    case "0111": cv = "7"; break;
+    case "1000": cv = "8"; break;
+    case "1001": cv = "9"; break;
+    case "1010": cv = "A"; break;
+    case "1011": cv = "B"; break;
+    case "1100": cv = "C"; break;
+    case "1101": cv = "D"; break;
+    case "1110": cv = "E"; break;
+    case "1111": cv = "F"; break;
   }
   return cv;
 }
