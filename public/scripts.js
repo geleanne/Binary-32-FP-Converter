@@ -154,4 +154,33 @@ document.addEventListener("DOMContentLoaded", () => {
             computeSpecialCase();
         }
     });
+
+
+    document.getElementById("export").addEventListener("click", function () {
+        const binaryOutput = document.getElementById("binary-output").textContent.trim();
+        const hexOutput = document.getElementById("hex-output").textContent.trim();
+        const successMessage = document.getElementById("export-success-message");
+        const errorMessage = document.getElementById("export-error-message");
+
+        if (binaryOutput || hexOutput) {
+            // If there are valid outputs
+            successMessage.textContent = "The output is exporting...";
+            errorMessage.textContent = "";
+
+            const data = `Binary Output: ${binaryOutput}\nHex Output: ${hexOutput}`;
+            const blob = new Blob([data], { type: "text/plain" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = "output.txt";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } else {
+            // If there are no valid outputs
+            errorMessage.textContent = "No valid inputs to export.";
+            successMessage.textContent = "";
+        }
+    });
 });

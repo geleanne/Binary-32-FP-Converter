@@ -252,6 +252,22 @@ button:hover {
     padding-left: 2px;
 }
 
+.success-message {
+    color: green;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    padding-left: 2px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    padding-left: 2px;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .input-second-row,
