@@ -75,9 +75,7 @@ function computeNormalizedBinary() {
   if (integerPart && integerPart !== "0") {
     const firstOneIndex = integerPart.indexOf("1");
     exponent = integerPart.length - firstOneIndex - 1;
-    normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${
-      fractionalPart || ""
-    }`;
+    normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${fractionalPart || ""}`;
   } else if (fractionalPart) {
     const firstOneIndex = fractionalPart.indexOf("1");
     exponent = -(firstOneIndex + 1);
@@ -90,22 +88,19 @@ function computeNormalizedBinary() {
 
   if (finalExponent < -126 || finalExponent > 127) {
     const shiftAmount = -126 - finalExponent;
-    normalizedBinary = `0.${"0".repeat(shiftAmount-1)}${normalizedBinary.replace(".", "")}`;
+    normalizedBinary = `0.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
   }
-
-  // create a condition for positive and negative zero input
-  // example:
-  // binary/decimal input: -0.0 / 0.0
-  // exponent input: 0
-  // normalized binary: 0.0
-  // exponent: 0
 
   if (binaryEquivalent === "0.0") {
     normalizedBinary = "0.0";
     exponent = 0;
   }
 
+  const mantissaValue = document.getElementById("mantissa-input").value;
+  if (mantissaValue.startsWith("-")) {
+    normalizedBinary = "-" + normalizedBinary;
+  }
 
   trialQuickPrint("This is normBin: " + normalizedBinary);
   trialQuickPrint("Exponent shift count: " + exponent);
