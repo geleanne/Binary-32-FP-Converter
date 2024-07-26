@@ -90,9 +90,7 @@ function computeNormalizedBinary() {
     const shiftAmount = -126 - finalExponent;
     normalizedBinary = `0.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
-  }
-
-  if (binaryEquivalent === "0.0") {
+  } else if (exponentInput.value === "0") {
     normalizedBinary = "0.0";
     exponent = 0;
   }
@@ -126,6 +124,8 @@ function computeFinalExponent() {
     finalExponent = -126;
   } else if (finalExponent > 127) {
     finalExponent = 127;
+  } else if (normalizedBinary === "0.0") {
+    finalExponent = 0;
   }
 
   trialQuickPrint("Final Exponent : " + finalExponent);
@@ -159,12 +159,7 @@ function computeEPrime() {
 
   let eprimeToBinary = "";
 
-  if (exponentValue < -126 || exponentValue > 127) {
-    const ePrime = 0;
-    eprimeToBinary = integerToBinary(ePrime);
-    ePrimeOutput.textContent = eprimeToBinary;
-    trialQuickPrint("Eprime to Binary : 00000000");
-  } else if (finalExponent === 0) {
+  if (exponentValue < -126 || exponentValue > 127 || exponentValue === 0) {
     const ePrime = 0;
     eprimeToBinary = integerToBinary(ePrime);
     ePrimeOutput.textContent = eprimeToBinary;
