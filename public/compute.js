@@ -94,6 +94,19 @@ function computeNormalizedBinary() {
     exponent = -126;
   }
 
+  // create a condition for positive and negative zero input
+  // example:
+  // binary/decimal input: -0.0 / 0.0
+  // exponent input: 0
+  // normalized binary: 0.0
+  // exponent: 0
+
+  if (binaryEquivalent === "0.0") {
+    normalizedBinary = "0.0";
+    exponent = 0;
+  }
+
+
   trialQuickPrint("This is normBin: " + normalizedBinary);
   trialQuickPrint("Exponent shift count: " + exponent);
   normalizedBinaryOutput.textContent = normalizedBinary;
@@ -152,6 +165,11 @@ function computeEPrime() {
   let eprimeToBinary = "";
 
   if (exponentValue < -126 || exponentValue > 127) {
+    const ePrime = 0;
+    eprimeToBinary = integerToBinary(ePrime);
+    ePrimeOutput.textContent = eprimeToBinary;
+    trialQuickPrint("Eprime to Binary : 00000000");
+  } else if (finalExponent === 0) {
     const ePrime = 0;
     eprimeToBinary = integerToBinary(ePrime);
     ePrimeOutput.textContent = eprimeToBinary;
