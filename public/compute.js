@@ -146,20 +146,27 @@ function computeEPrime() {
   const finalExponentOutput = document.getElementById("final-exponent");
   const ePrimeOutput = document.getElementById("e-prime");
   const finalExponent = parseInt(finalExponentOutput.textContent, 10);
+  const exponentInput = document.getElementById("exponent-input").value;
+  const exponentValue = parseInt(exponentInput, 10);
 
-  if (!isNaN(finalExponent)) {
+  let eprimeToBinary = "";
+
+  if (exponentValue < -126 || exponentValue > 127) {
+    const ePrime = 0;
+    eprimeToBinary = integerToBinary(ePrime);
+    ePrimeOutput.textContent = eprimeToBinary;
+    trialQuickPrint("Eprime to Binary : 00000000");
+  } else {
     const ePrime = finalExponent + 127;
     trialQuickPrint("Final Exponent : " + finalExponent);
     eprimeToBinary = integerToBinary(ePrime);
-    trialQuickPrint("Eprime Length : " + ePrime.length);
+    trialQuickPrint("Eprime Length : " + ePrime.toString().length);
     trialQuickPrint("Eprime value : " + ePrime);
     trialQuickPrint("Eprime to Binary : " + eprimeToBinary);
     ePrimeOutput.textContent = eprimeToBinary;
-  } else {
-    ePrimeOutput.textContent = "";
   }
 
-  return eprimeToBinary;
+  return ePrimeOutput.textContent;
 }
 
 // significand Fractional Part computation
@@ -294,8 +301,8 @@ function computeSpecialCase() {
   } else {
       const signBit = computeSignBit();
       const { normalizedBinary, exponent } = computeNormalizedBinary();
-      const ePrime = computeEPrime();
 
+      const ePrime = computeEPrime();
       if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
           specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
       } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
