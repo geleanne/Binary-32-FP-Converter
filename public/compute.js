@@ -72,10 +72,7 @@ function computeNormalizedBinary() {
   let normalizedBinary = "";
   let exponent = 0;
 
-  if (binaryEquivalent === "0.0") {
-    normalizedBinary = "0.0";
-    exponent = 0;
-  } else if (integerPart && integerPart !== "0") {
+  if (integerPart && integerPart !== "0") {
     const firstOneIndex = integerPart.indexOf("1");
     exponent = integerPart.length - firstOneIndex - 1;
     normalizedBinary = `1.${integerPart.slice(firstOneIndex + 1)}${fractionalPart || ""}`;
@@ -89,14 +86,10 @@ function computeNormalizedBinary() {
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
 
-  // Handle special cases
-  if (finalExponent < -126) {
+  if (finalExponent < -126 || finalExponent > 127) {
     const shiftAmount = -126 - finalExponent;
     normalizedBinary = `0.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
-  } else if (finalExponent > 127) {
-    normalizedBinary = "0.0"; // Handle as NaN case
-    exponent = 127;
   } else if (exponentInput.value === "0") {
     normalizedBinary = "0.0";
     exponent = 0;
@@ -114,38 +107,30 @@ function computeNormalizedBinary() {
   return { normalizedBinary, exponent }; // return both normalized binary string and exponent
 }
 
-
-
 // handle the final exponent output
 function computeFinalExponent() {
   const exponentInput = document.getElementById("exponent-input");
   const finalExponentOutput = document.getElementById("final-exponent");
   const inputExponent = parseInt(exponentInput.value, 10);
 
-  // Check if the exponent is out of range
-  if (inputExponent > 127 || inputExponent < -126) {
-    // Set exponent to all 1s for special cases like NaN or Infinity
-    finalExponentOutput.textContent = "11111111";
-    return "11111111";
-  }
-
   const { normalizedBinary, exponent } = computeNormalizedBinary();
-  let finalExponent = inputExponent + exponent;
+  let finalExponent = inputExponent + exponent;  
 
-  // Handle overflow
-  if (finalExponent < -126) {
+  trialQuickPrint("Exponent : " + inputExponent);
+
+  if (isNaN(finalExponent)) {
+    finalExponent = 0;
+  } else if (finalExponent < -126) {
     finalExponent = -126;
   } else if (finalExponent > 127) {
     finalExponent = 127;
+  } else if (normalizedBinary === "0.0") {
+    finalExponent = 0;
   }
 
+  trialQuickPrint("Final Exponent : " + finalExponent);
   finalExponentOutput.textContent = finalExponent;
-  return finalExponent.toString();
 }
-
-
-
-
 
 // print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
 function computeSignBit() {
@@ -310,55 +295,33 @@ function finaAnswrHex() {
 // special case field
 function computeSpecialCase() {
   const specialCaseOutput = document.getElementById("special-case");
-  const mantissaValue = document.getElementById("mantissa-input").value.trim().toLowerCase();
+  const mantissaValue = document.getElementById("mantissa-input").value.trim();
   const exponentValue = parseInt(document.getElementById("exponent-input").value.trim(), 10);
 
   let specialCase = "";
-  let signBit, ePrime, significand, value;
 
-  // Check for Infinity
-  if (mantissaValue === "infinity" || mantissaValue === "-infinity") {
-    signBit = mantissaValue.startsWith("-") ? 1 : 0;
-    ePrime = "11111111"; // E' for Infinity
-    significand = "00000000000000000000000"; // Significand for Infinity
-    value = mantissaValue.startsWith("-") ? "- Infinity" : "+ Infinity";
+  if (mantissaValue.toLowerCase() === "nan") {
+      specialCase = "Not a Number (NaN)";
+  } else if (mantissaValue === "0" && exponentValue === 0) {
+      specialCase = "Zero";
+  } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
+      specialCase = "Infinity";
+  } else {
+      const signBit = computeSignBit();
+      const { normalizedBinary, exponent } = computeNormalizedBinary();
 
-    specialCase = `sign bit: ${signBit} | E': ${ePrime} | Significand: ${significand} | value: ${value}`;
-  }
-  // Check for NaN
-  else if (mantissaValue === "nan") {
-    signBit = computeSignBit();
-    ePrime = "11111111"; // E' for NaN
-    significand = "01" + "0".repeat(22); // sNaN (assume 22 zeros for simplicity)
-    value = "sNaN";
-
-    // If the significand has a leading 1, it's a qNaN
-    if (document.getElementById("significand").textContent.startsWith("1")) {
-      significand = "1" + "0".repeat(22); // qNaN
-      value = "qNaN";
-    }
-
-    specialCase = `sign bit: ${signBit} | E': ${ePrime} | Significand: ${significand} | value: ${value}`;
-  }
-  // Handle other cases
-  else {
-    const signBitValue = computeSignBit();
-    const { normalizedBinary } = computeNormalizedBinary();
-    const ePrime = computeEPrime();
-
-    if (ePrime === "11111111") {
-      if (normalizedBinary.indexOf("1") === -1) {
-        specialCase = signBitValue === 0 ? "Positive Infinity" : "Negative Infinity";
+      const ePrime = computeEPrime();
+      if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
+          specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
+      } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
+          specialCase = "NaN";
+      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
+          specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
+      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
+          specialCase = "Denormalized";
       } else {
-        specialCase = "NaN";
+          specialCase = "Normalized";
       }
-    } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
-      specialCase = signBitValue === 0 ? "Positive Zero" : "Negative Zero";
-    } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
-      specialCase = "Denormalized";
-    } else {
-      specialCase = "Normalized";
-    }
   }
 
   specialCaseOutput.textContent = specialCase;
