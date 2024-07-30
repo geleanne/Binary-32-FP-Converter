@@ -21,7 +21,6 @@ function integerToBinary(integerPart) {
   return binary;
 }
 
-
 // convert the fractional part of a decimal number to binary
 function fractionalToBinary(fractionalPart) {
   let binary = "";
@@ -240,12 +239,22 @@ function trialQuickPrint(n) {
   console.log(n);
 }
 
-//Final Answer in Binary
+// Final Answer in Binary
 function finalAnswerBinary() {
   const faBinary = document.getElementById("binary-output");
 
-  let finalAnswer =
-    computeSignBit() + " " + computeEPrime() + " " + computeSPF();
+  const mantissaValue = document.getElementById("mantissa-input").value.trim();
+  let finalAnswer = "";
+
+  if (mantissaValue === "snan") {
+    finalAnswer = "01x xxxx xxxx xxxx xxxx xxxx";
+  } else if (mantissaValue === "qnan") {
+    finalAnswer = "1xx xxxx xxxx xxxx xxxx xxxx";
+  } else {
+    finalAnswer =
+      computeSignBit() + " " + computeEPrime() + " " + computeSPF();
+  }
+
   trialQuickPrint("Final Answer in Binary : " + finalAnswer);
   faBinary.textContent = finalAnswer;
 
@@ -276,11 +285,11 @@ function createMap(um) {
   return cv;
 }
 
-//Binary to Hex
+// Binary to Hex
 function finaAnswrHex() {
   const faHex = document.getElementById("hex-output");
   let faBin = finalAnswerBinary();
-  let result = faBin.replace(/\s+/g, ""); //remove spaces
+  let result = faBin.replace(/\s+/g, ""); // Remove spaces
   let ctr = result.length;
 
   trialQuickPrint("Carried FAB : " + faBin);
@@ -299,29 +308,40 @@ function computeSpecialCase() {
   const exponentValue = parseInt(document.getElementById("exponent-input").value.trim(), 10);
 
   let specialCase = "";
+  let signBit = "";
+  let ePrime = "";
+  let significandPF = "";
 
-  if (mantissaValue.toLowerCase() === "nan") {
-      specialCase = "Not a Number (NaN)";
+  if (mantissaValue === "snan") {
+    specialCase = "sNaN";
+    signBit = "x"; // The sign bit remains undefined (x) for sNaN
+    ePrime = "11111111"; // E' for NaN
+    significandPF = "01x xxxx xxxx xxxx xxxx xxxx"; // Hardcoded significand for sNaN
+  } else if (mantissaValue === "qnan") {
+    specialCase = "qNaN";
+    signBit = "x"; // The sign bit remains undefined (x) for qNaN
+    ePrime = "11111111"; // E' for NaN
+    significandPF = "1xx xxxx xxxx xxxx xxxx xxxx"; // Hardcoded significand for qNaN
   } else if (mantissaValue === "0" && exponentValue === 0) {
-      specialCase = "Zero";
+    specialCase = "Zero";
   } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
-      specialCase = "Infinity";
+    specialCase = "Infinity";
   } else {
-      const signBit = computeSignBit();
-      const { normalizedBinary, exponent } = computeNormalizedBinary();
+    const signBit = computeSignBit();
+    const { normalizedBinary, exponent } = computeNormalizedBinary();
 
-      const ePrime = computeEPrime();
-      if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
-          specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
-      } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
-          specialCase = "NaN";
-      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
-          specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
-      } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
-          specialCase = "Denormalized";
-      } else {
-          specialCase = "Normalized";
-      }
+    const ePrime = computeEPrime();
+    if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
+      specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
+    } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
+      specialCase = "NaN";
+    } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
+      specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
+    } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
+      specialCase = "Denormalized";
+    } else {
+      specialCase = "Normalized";
+    }
   }
 
   specialCaseOutput.textContent = specialCase;
