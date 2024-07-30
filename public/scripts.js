@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mantissaLabelText = 'Decimal';
             placeholderText = 'Enter a decimal number';
             exponentLabelText = 'Exponent (Base-10)';
-        // placeholder muna since not yet sure for nan
         } else if (selectedFormat === 'nan') {
             mantissaLabelText = 'NaN';
             placeholderText = 'Enter NaN value';
@@ -66,31 +65,39 @@ document.addEventListener("DOMContentLoaded", () => {
         mantissaError.textContent = '';
         exponentError.textContent = '';
 
-        if (mantissaValue === '') {
-            mantissaError.textContent = 'Mantissa cannot be empty.';
-            isValid = false;
-        } else if (selectedFormat === 'binary' && !isValidBinaryInput(mantissaValue)) {
-            mantissaError.textContent = 'Invalid binary input.';
-            isValid = false;
-        } else if (selectedFormat === 'decimal' && isNaN(mantissaValue)) {
-            mantissaError.textContent = 'Invalid decimal input.';
-            isValid = false;
-        } else if (selectedFormat === 'nan' && mantissaValue !== '') {
-            mantissaError.textContent = 'NaN should not have any value.';
-            isValid = false;
-        }
-
-        if (selectedFormat !== 'nan') {
-            if (exponentValue === '') {
-                exponentError.textContent = 'Exponent cannot be empty.';
-                isValid = false;
-            } else if (!/^[+-]?\d+$/.test(exponentValue)) {
-                exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
+        if (selectedFormat === 'nan') {
+            if (mantissaValue !== 'qnan' && mantissaValue !== 'snan') {
+                mantissaError.textContent = 'Input should be "qnan" or "snan".';
                 isValid = false;
             }
-        } else if (exponentValue !== '') {
-            exponentError.textContent = 'NaN should not have any value.';
-            isValid = false;
+            if (exponentValue !== '') {
+                exponentError.textContent = 'NaN should not have any value.';
+                isValid = false;
+            }
+        } else {
+            if (mantissaValue === '') {
+                mantissaError.textContent = 'Mantissa cannot be empty.';
+                isValid = false;
+            } else if (selectedFormat === 'binary' && !isValidBinaryInput(mantissaValue)) {
+                mantissaError.textContent = 'Invalid binary input.';
+                isValid = false;
+            } else if (selectedFormat === 'decimal' && isNaN(mantissaValue)) {
+                mantissaError.textContent = 'Invalid decimal input.';
+                isValid = false;
+            }
+
+            if (selectedFormat !== 'nan') {
+                if (exponentValue === '') {
+                    exponentError.textContent = 'Exponent cannot be empty.';
+                    isValid = false;
+                } else if (!/^[+-]?\d+$/.test(exponentValue)) {
+                    exponentError.textContent = 'Invalid input. Please enter a whole number for exponent.';
+                    isValid = false;
+                }
+            } else if (exponentValue !== '') {
+                exponentError.textContent = 'NaN should not have any value.';
+                isValid = false;
+            }
         }
 
         // clear process outputs on invalid input
@@ -137,6 +144,26 @@ document.addEventListener("DOMContentLoaded", () => {
         binaryEquivalentOutput.textContent = binaryEquivalent;
     }
 
+    // handles special cases for NaN
+    function computeSpecialCase() {
+        const mantissaValue = mantissaInput.value.trim();
+        const selectedFormat = inputType.value;
+        
+        if (selectedFormat === 'nan') {
+            if (mantissaValue === 'snan') {
+                document.getElementById('sign-bit').textContent = 'x';
+                document.getElementById('e-prime').textContent = '1111 1111';
+                document.getElementById('significand').textContent = '01x xxxx xxxx xxxx xxxx xxxx';
+                document.getElementById('special-case').textContent = 'sNaN';
+            } else if (mantissaValue === 'qnan') {
+                document.getElementById('sign-bit').textContent = 'x';
+                document.getElementById('e-prime').textContent = '1111 1111';
+                document.getElementById('significand').textContent = '1xx xxxx xxxx xxxx xxxx xxxx';
+                document.getElementById('special-case').textContent = 'qNaN';
+            }
+        }
+    }
+
     // validation on compute button click
     computeButton.addEventListener('click', (event) => {
         const isValid = validateInputs();
@@ -154,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
             computeSpecialCase();
         }
     });
-
 
     document.getElementById("export").addEventListener("click", function () {
         const binaryOutput = document.getElementById("binary-output").textContent.trim();
