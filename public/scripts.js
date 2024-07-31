@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const exponentError = document.getElementById('exponent-error');    // error message for invalid exponent input
     const computeButton = document.getElementById('compute');           
     const binaryEquivalentOutput = document.getElementById('binary-equivalent');
+    const exportButton = document.getElementById('export');
+    const exportSuccessMessage = document.getElementById('export-success-message');
+    const exportErrorMessage = document.getElementById('export-error-message');
 
     // event listener for input type change
     inputType.addEventListener('change', function() {
@@ -109,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('e-prime').textContent = '';
             document.getElementById('significand').textContent = '';
             document.getElementById('special-case').textContent = '';
+            document.getElementById("binary-output").textContent = '';
+            document.getElementById("hex-output").textContent = '';
         }
 
         return isValid;
@@ -170,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isValid) {
             event.preventDefault();
+            exportSuccessMessage.textContent = "";
         } else {
             computeSignBit();
             computeBinaryRepresentation();
@@ -179,19 +185,19 @@ document.addEventListener("DOMContentLoaded", () => {
             finalAnswerBinary();
             finaAnswrHex();
             computeSpecialCase();
+            exportErrorMessage.textContent = "";
         }
     });
 
-    document.getElementById("export").addEventListener("click", function () {
+    // export button functionality
+    exportButton.addEventListener("click", function () {
         const binaryOutput = document.getElementById("binary-output").textContent.trim();
         const hexOutput = document.getElementById("hex-output").textContent.trim();
-        const successMessage = document.getElementById("export-success-message");
-        const errorMessage = document.getElementById("export-error-message");
 
         if (binaryOutput || hexOutput) {
             // If there are valid outputs
-            successMessage.textContent = "The output is exporting...";
-            errorMessage.textContent = "";
+            exportSuccessMessage.textContent = "Exporting... Check your Downloads folder.";
+            exportErrorMessage.textContent = "";
 
             const data = `Binary Output: ${binaryOutput}\nHex Output: ${hexOutput}`;
             const blob = new Blob([data], { type: "text/plain" });
@@ -205,8 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
             window.URL.revokeObjectURL(url);
         } else {
             // If there are no valid outputs
-            errorMessage.textContent = "No valid inputs to export.";
-            successMessage.textContent = "";
+            exportErrorMessage.textContent = "Error: No data available for export.";
+            exportSuccessMessage.textContent = "";
         }
     });
 });
