@@ -172,7 +172,7 @@ function computeEPrime() {
     ePrimeOutput.textContent = "11111111";
     return "11111111";
   }
-  
+
   if (exponentValue < -126) {
     const ePrime = 0;
     eprimeToBinary = integerToBinary(ePrime);
@@ -205,9 +205,19 @@ function computeEPrime() {
 function computeSPF() {
   // Get the significand element
   const significandPF = document.getElementById("significand");
-  // const finalExponent = finalExponentOutput.textContent;
-  // const ePrime = computeEPrime();
 
+  // Get the mantissa input value
+  const mantissaValue = document.getElementById("mantissa-input").value.trim();
+
+  // Handle special cases for sNaN and qNaN
+  if (mantissaValue === "snan") {
+    significandPF.textContent = "01000000000000000000000";
+    return "01000000000000000000000";
+  } else if (mantissaValue === "qnan") {
+    significandPF.textContent = "10000000000000000000000";
+    return "10000000000000000000000";
+  }
+  
   // Compute normalized binary and extract its components
   const { normalizedBinary } = computeNormalizedBinary();
   trialQuickPrint("Carried: " + normalizedBinary);
@@ -286,9 +296,9 @@ function finalAnswerBinary() {
   let finalAnswer = "";
 
   if (mantissaValue === "snan") {
-    finalAnswer = "01x xxxx xxxx xxxx xxxx xxxx";
+    finalAnswer = "0 11111111 01000000000000000000000";
   } else if (mantissaValue === "qnan") {
-    finalAnswer = "1xx xxxx xxxx xxxx xxxx xxxx";
+    finalAnswer = "0 11111111 10000000000000000000000";
   } else {
     finalAnswer =
       computeSignBit() + " " + computeEPrime() + " " + computeSPF();
@@ -340,50 +350,6 @@ function finaAnswrHex() {
   faHex.textContent = "0x" + result;
 }
 
-// handles special case for NaN
-function computeNaNSpecialCase() {
-  const mantissaValue = mantissaInput.value.trim();
-  const selectedFormat = inputType.value;
-      
-  if (selectedFormat === 'nan') {
-    if (mantissaValue === 'snan') {
-      document.getElementById('sign-bit').textContent = 'x';
-      document.getElementById('e-prime').textContent = '1111 1111';
-      document.getElementById('significand').textContent = '01x xxxx xxxx xxxx xxxx xxxx';
-      document.getElementById('special-case').textContent = 'sNaN';
-    } else if (mantissaValue === 'qnan') {
-      document.getElementById('sign-bit').textContent = 'x';
-      document.getElementById('e-prime').textContent = '1111 1111';
-      document.getElementById('significand').textContent = '1xx xxxx xxxx xxxx xxxx xxxx';
-      document.getElementById('special-case').textContent = 'qNaN';
-    }
-  }
-}
-
-// handles special case for infinity
-// function computeInfinitySpecialCase() {
-//   const finalExponentOutput = document.getElementById("final-exponent");
-//   const ePrimeOutput = document.getElementById("e-prime");
-//   const signBitOutput = document.getElementById("sign-bit");
-  
-//   const finalExponent = parseInt(finalExponentOutput.textContent, 10);
-//   const ePrime = ePrimeOutput.textContent.trim().replace(/\s+/g, "");
-//   const signBit = parseInt(signBitOutput.textContent.trim());
-
-//   let specialCase = "";
-
-//   if (ePrime === "11111111") {
-//     if (finalExponent === 0) {
-//       specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
-//     } else {
-//       specialCase = "NaN";
-//     }
-//   }
-
-//   document.getElementById("special-case").textContent = specialCase;
-//   trialQuickPrint("Infinity Special Case: " + specialCase);
-// }
-
 // special case field
 function printSpecialCase() {
   const specialCaseOutput = document.getElementById("special-case");
@@ -399,12 +365,10 @@ function printSpecialCase() {
     specialCase = "sNaN";
     signBit = "x"; // The sign bit remains undefined (x) for sNaN
     ePrime = "11111111"; // E' for NaN
-    significandPF = "01x xxxx xxxx xxxx xxxx xxxx"; // Hardcoded significand for sNaN
   } else if (mantissaValue === "qnan") {
     specialCase = "qNaN";
     signBit = "x"; // The sign bit remains undefined (x) for qNaN
     ePrime = "11111111"; // E' for NaN
-    significandPF = "1xx xxxx xxxx xxxx xxxx xxxx"; // Hardcoded significand for qNaN
   } else if (mantissaValue === "0" && exponentValue === 0) {
     specialCase = "Zero";
   // } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
