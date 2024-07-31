@@ -301,8 +301,28 @@ function finaAnswrHex() {
   faHex.textContent = "0x" + result;
 }
 
+// handles special case for NaN
+function computeNaNSpecialCase() {
+  const mantissaValue = mantissaInput.value.trim();
+  const selectedFormat = inputType.value;
+      
+  if (selectedFormat === 'nan') {
+    if (mantissaValue === 'snan') {
+      document.getElementById('sign-bit').textContent = 'x';
+      document.getElementById('e-prime').textContent = '1111 1111';
+      document.getElementById('significand').textContent = '01x xxxx xxxx xxxx xxxx xxxx';
+      document.getElementById('special-case').textContent = 'sNaN';
+    } else if (mantissaValue === 'qnan') {
+      document.getElementById('sign-bit').textContent = 'x';
+      document.getElementById('e-prime').textContent = '1111 1111';
+      document.getElementById('significand').textContent = '1xx xxxx xxxx xxxx xxxx xxxx';
+      document.getElementById('special-case').textContent = 'qNaN';
+    }
+  }
+}
+
 // special case field
-function computeSpecialCase() {
+function printSpecialCase() {
   const specialCaseOutput = document.getElementById("special-case");
   const mantissaValue = document.getElementById("mantissa-input").value.trim();
   const exponentValue = parseInt(document.getElementById("exponent-input").value.trim(), 10);
@@ -339,8 +359,6 @@ function computeSpecialCase() {
       specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
     } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
       specialCase = "Denormalized";
-    } else {
-      specialCase = "Normalized";
     }
   }
 

@@ -149,26 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
         binaryEquivalentOutput.textContent = binaryEquivalent;
     }
 
-    // handles special cases for NaN
-    function computeSpecialCase() {
-        const mantissaValue = mantissaInput.value.trim();
-        const selectedFormat = inputType.value;
-        
-        if (selectedFormat === 'nan') {
-            if (mantissaValue === 'snan') {
-                document.getElementById('sign-bit').textContent = 'x';
-                document.getElementById('e-prime').textContent = '1111 1111';
-                document.getElementById('significand').textContent = '01x xxxx xxxx xxxx xxxx xxxx';
-                document.getElementById('special-case').textContent = 'sNaN';
-            } else if (mantissaValue === 'qnan') {
-                document.getElementById('sign-bit').textContent = 'x';
-                document.getElementById('e-prime').textContent = '1111 1111';
-                document.getElementById('significand').textContent = '1xx xxxx xxxx xxxx xxxx xxxx';
-                document.getElementById('special-case').textContent = 'qNaN';
-            }
-        }
-    }
-
     // validation on compute button click
     computeButton.addEventListener('click', (event) => {
         const isValid = validateInputs();
@@ -184,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
             computeSPF();
             finalAnswerBinary();
             finaAnswrHex();
-            computeSpecialCase();
+            printSpecialCase();
+            computeNaNSpecialCase();
             exportErrorMessage.textContent = "";
         }
     });
