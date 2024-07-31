@@ -81,26 +81,23 @@ function computeNormalizedBinary() {
     normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
   }
 
-  // Remove trailing zeros from the fractional part
-  normalizedBinary = normalizedBinary.replace(/0+$/, "");  
-
   const exponentInput = document.getElementById("exponent-input");
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
 
+  const mantissaValue = document.getElementById("mantissa-input").value;
+  if (mantissaValue.startsWith("-")) {
+    normalizedBinary = "-" + normalizedBinary;
+  }
+  
   if (finalExponent < -126) {
     const shiftAmount = -126 - finalExponent;
     normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
   } else if (finalExponent > 127) {
     normalizedBinary = binaryEquivalent;
-  } else if (inputExponent === 0) {
+  } else if (mantissaValue.startsWith("-0") && inputExponent === 0 || mantissaValue.startsWith("0") && inputExponent === 0) {
     normalizedBinary = "0.0";
-  }
-
-  const mantissaValue = document.getElementById("mantissa-input").value;
-  if (mantissaValue.startsWith("-")) {
-    normalizedBinary = "-" + normalizedBinary;
   }
 
   trialQuickPrint("This is normBin: " + normalizedBinary);
@@ -227,12 +224,12 @@ function computeSPF() {
     ctr++;
   }
 
-    // Check for special case of positive infinity
-    const finalExponentOutput = document.getElementById("final-exponent");
-    const finalExponent = parseInt(finalExponentOutput.textContent, 10);
-    if (finalExponent > 127) {
-        decimalPart = "00000000000000000000000";
-    }
+  // Check for special case of positive infinity
+  const finalExponentOutput = document.getElementById("final-exponent");
+  const finalExponent = parseInt(finalExponentOutput.textContent, 10);
+  if (finalExponent > 127) {
+    decimalPart = "00000000000000000000000";
+  }
 
   trialQuickPrint("Final Count SPF: " + ctr);
   trialQuickPrint("Count Final Decimal: " + decimalPart.length);
