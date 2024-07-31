@@ -61,7 +61,8 @@ function computeNormalizedBinary() {
   const binaryEquivalentOutput = document.getElementById("binary-equivalent");
   const normalizedBinaryOutput = document.getElementById("normalized-binary");
   const binaryEquivalent = binaryEquivalentOutput.textContent;
-
+  const mantissaValue = document.getElementById("mantissa-input").value;
+  
   if (!binaryEquivalent) {
     normalizedBinaryOutput.textContent = "";
     return { normalizedBinary: "", exponent: 0 };
@@ -70,7 +71,7 @@ function computeNormalizedBinary() {
   const [integerPart, fractionalPart] = binaryEquivalent.split(".");
   let normalizedBinary = "";
   let exponent = 0;
-
+  
   if (integerPart && integerPart !== "0") {
     const firstOneIndex = integerPart.indexOf("1");
     exponent = integerPart.length - firstOneIndex - 1;
@@ -80,26 +81,33 @@ function computeNormalizedBinary() {
     exponent = -(firstOneIndex + 1);
     normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
   }
+  
+  // if (mantissaValue.startsWith("-")) {
+  //   normalizedBinary = "-" + normalizedBinary;
+  // }
 
   const exponentInput = document.getElementById("exponent-input");
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
-
-  const mantissaValue = document.getElementById("mantissa-input").value;
-  if (mantissaValue.startsWith("-")) {
-    normalizedBinary = "-" + normalizedBinary;
-  }
   
   if (finalExponent < -126) {
     const shiftAmount = -126 - finalExponent;
-    normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
+    if (mantissaValue.startsWith("-")) {
+      normalizedBinary = "-" + `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
+    } else {
+      normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
+    }
     exponent = -126;
   } else if (finalExponent > 127) {
-    normalizedBinary = binaryEquivalent;
+    if (mantissaValue.startsWith("-")) {
+      normalizedBinary = "-" + binaryEquivalent;
+    } else {
+      normalizedBinary = binaryEquivalent;
+    }
   } else if (mantissaValue.startsWith("-0") && inputExponent === 0 || mantissaValue.startsWith("0") && inputExponent === 0) {
     normalizedBinary = "0.0";
   }
-
+  
   trialQuickPrint("This is normBin: " + normalizedBinary);
   trialQuickPrint("Exponent shift count: " + exponent);
   normalizedBinaryOutput.textContent = normalizedBinary;
