@@ -167,6 +167,12 @@ function computeEPrime() {
 
   let eprimeToBinary = "";
 
+  // Special handling for sNaN and qNaN
+  if (mantissaValue === "snan" || mantissaValue === "qnan") {
+    ePrimeOutput.textContent = "11111111";
+    return "11111111";
+  }
+  
   if (exponentValue < -126) {
     const ePrime = 0;
     eprimeToBinary = integerToBinary(ePrime);
