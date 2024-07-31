@@ -88,10 +88,14 @@ function computeNormalizedBinary() {
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
 
-  if (finalExponent < -126 || finalExponent > 127) {
+  if (finalExponent < -126) {
     const shiftAmount = -126 - finalExponent;
     normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
+  } else if (finalExponent > 127) {
+    normalizedBinary = binaryEquivalent;
+  } else if (inputExponent === 0) {
+    normalizedBinary = "0.0";
   }
 
   const mantissaValue = document.getElementById("mantissa-input").value;
@@ -122,23 +126,13 @@ function computeFinalExponent() {
   } else if (finalExponent < -126) {
     finalExponent = -126;
   } else if (finalExponent > 127) {
-    finalExponent = 127;
-  } else if (normalizedBinary === "0.0") {
+    finalExponent = inputExponent;
+  } else if (inputExponent === 0 && normalizedBinary === "0.0" || normalizedBinary === "-0.0") {
     finalExponent = 0;
-  }
-
-  // Check for infinity case
-  const ePrime = computeEPrime().replace(/\s+/g, "");
-  if (ePrime === "11111111") {
-    // Infinity case handling
-    finalExponent = 0; // For infinity, finalExponent is typically set to 0
   }
 
   trialQuickPrint("Final Exponent : " + finalExponent);
   finalExponentOutput.textContent = finalExponent;
-
-  // Call function to handle infinity special case
-  computeInfinitySpecialCase();
 }
 
 
@@ -172,10 +166,21 @@ function computeEPrime() {
   const finalExponent = parseInt(finalExponentOutput.textContent, 10);
   const exponentInput = document.getElementById("exponent-input").value;
   const exponentValue = parseInt(exponentInput, 10);
+  const mantissaValue = document.getElementById("mantissa-input").value;
 
   let eprimeToBinary = "";
 
-  if (exponentValue < -126 || exponentValue > 127) {
+  if (exponentValue < -126) {
+    const ePrime = 0;
+    eprimeToBinary = integerToBinary(ePrime);
+    ePrimeOutput.textContent = eprimeToBinary;
+    trialQuickPrint("Eprime to Binary : 00000000");
+  } else if (exponentValue > 127) {
+    const ePrime = 255;
+    eprimeToBinary = integerToBinary(ePrime);
+    ePrimeOutput.textContent = eprimeToBinary;
+    trialQuickPrint("Eprime to Binary : 11111111");
+  } else if (mantissaValue === "0.0" || mantissaValue === "-0.0" || mantissaValue === "0" || mantissaValue === "-0") {
     const ePrime = 0;
     eprimeToBinary = integerToBinary(ePrime);
     ePrimeOutput.textContent = eprimeToBinary;
@@ -197,6 +202,8 @@ function computeEPrime() {
 function computeSPF() {
   // Get the significand element
   const significandPF = document.getElementById("significand");
+  // const finalExponent = finalExponentOutput.textContent;
+  // const ePrime = computeEPrime();
 
   // Compute normalized binary and extract its components
   const { normalizedBinary } = computeNormalizedBinary();
@@ -209,11 +216,17 @@ function computeSPF() {
   trialQuickPrint("Fract Part Raw: " + decimalPart);
   trialQuickPrint("Count decimal num: " + ctr);
 
+  // if (finalExponent > 127 && ePrime > "11111111" && decimalPart === "0" || decimalPart != "0") {
+  //   decimalPart = "00000000000000000000000";
+  //   ctr = 23;
+  // }
+
   // Ensure the decimal part has exactly 23 bits
   while (ctr < 23) {
     decimalPart += "0";
     ctr++;
   }
+
 
   trialQuickPrint("Final Count SPF: " + ctr);
   trialQuickPrint("Count Final Decimal: " + decimalPart.length);
@@ -339,28 +352,28 @@ function computeNaNSpecialCase() {
 }
 
 // handles special case for infinity
-function computeInfinitySpecialCase() {
-  const finalExponentOutput = document.getElementById("final-exponent");
-  const ePrimeOutput = document.getElementById("e-prime");
-  const signBitOutput = document.getElementById("sign-bit");
+// function computeInfinitySpecialCase() {
+//   const finalExponentOutput = document.getElementById("final-exponent");
+//   const ePrimeOutput = document.getElementById("e-prime");
+//   const signBitOutput = document.getElementById("sign-bit");
   
-  const finalExponent = parseInt(finalExponentOutput.textContent, 10);
-  const ePrime = ePrimeOutput.textContent.trim().replace(/\s+/g, "");
-  const signBit = parseInt(signBitOutput.textContent.trim());
+//   const finalExponent = parseInt(finalExponentOutput.textContent, 10);
+//   const ePrime = ePrimeOutput.textContent.trim().replace(/\s+/g, "");
+//   const signBit = parseInt(signBitOutput.textContent.trim());
 
-  let specialCase = "";
+//   let specialCase = "";
 
-  if (ePrime === "11111111") {
-    if (finalExponent === 0) {
-      specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
-    } else {
-      specialCase = "NaN";
-    }
-  }
+//   if (ePrime === "11111111") {
+//     if (finalExponent === 0) {
+//       specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
+//     } else {
+//       specialCase = "NaN";
+//     }
+//   }
 
-  document.getElementById("special-case").textContent = specialCase;
-  trialQuickPrint("Infinity Special Case: " + specialCase);
-}
+//   document.getElementById("special-case").textContent = specialCase;
+//   trialQuickPrint("Infinity Special Case: " + specialCase);
+// }
 
 // special case field
 function printSpecialCase() {
@@ -385,17 +398,18 @@ function printSpecialCase() {
     significandPF = "1xx xxxx xxxx xxxx xxxx xxxx"; // Hardcoded significand for qNaN
   } else if (mantissaValue === "0" && exponentValue === 0) {
     specialCase = "Zero";
-  } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
-    specialCase = mantissaValue === "Infinity" ? "Positive Infinity" : "Negative Infinity";
+  // } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
+  //   specialCase = mantissaValue === "Infinity" ? "Positive Infinity" : "Negative Infinity";
   } else {
     const signBit = computeSignBit();
     const { normalizedBinary, exponent } = computeNormalizedBinary();
-
     const ePrime = computeEPrime();
-    if (ePrime === "11111111" && normalizedBinary.indexOf("1") === -1) {
+    const significandPF = computeSPF();
+
+    if (ePrime === "11111111" && significandPF === "00000000000000000000000") {
       specialCase = signBit === 0 ? "Positive Infinity" : "Negative Infinity";
-    } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
-      specialCase = "NaN";
+    // } else if (ePrime === "11111111" && normalizedBinary.indexOf("1") !== -1) {
+    //   specialCase = "NaN";
     } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") === -1) {
       specialCase = signBit === 0 ? "Positive Zero" : "Negative Zero";
     } else if (ePrime === "00000000" && normalizedBinary.indexOf("1") !== -1) {
