@@ -192,15 +192,15 @@ function computeSPF() {
   trialQuickPrint("Fract Part Raw: " + decimalPart);
   trialQuickPrint("Count decimal num: " + ctr);
 
-  // Ensure the decimal part has exactly 24 bits
-  while (ctr < 24) {
+  // Ensure the decimal part has exactly 23 bits
+  while (ctr < 23) {
     decimalPart += "0";
     ctr++;
   }
 
   trialQuickPrint("Final Count SPF: " + ctr);
   trialQuickPrint("Count Final Decimal: " + decimalPart.length);
-  trialQuickPrint("Complete 24 SFP: " + decimalPart);
+  trialQuickPrint("Complete 23 SFP: " + decimalPart);
   significandPF.textContent = decimalPart;
 
   return decimalPart;
