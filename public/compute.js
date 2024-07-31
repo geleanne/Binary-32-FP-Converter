@@ -81,6 +81,9 @@ function computeNormalizedBinary() {
     normalizedBinary = `1.${fractionalPart.slice(firstOneIndex + 1)}`;
   }
 
+  // Remove trailing zeros from the fractional part
+  normalizedBinary = normalizedBinary.replace(/0+$/, "");  
+
   const exponentInput = document.getElementById("exponent-input");
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
