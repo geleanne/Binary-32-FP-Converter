@@ -20,7 +20,7 @@ The project is deployed using Node.js and Vercel.
 
 You can access the live version here: [https://Group8-Binary-32-Floating-Point-Converter.vercel.app](https://Group8-Binary-32-Floating-Point-Converter.vercel.app)
 
-## How to Use the Web Application ([Google Drive link to Video Demonstration](https://drive.google.com/file/d/13-p4hSjaZ24SWhNHLltteLrKHgwwkFUG/view?fbclid=IwZXh0bgNhZW0CMTEAAR1L7eWa4FpHH0j8UnSZyCPcgNFbKB-y2_g1W8ZREjsR1T-XT5cKbTcZAQ4_aem_lpjMjc1mnnkae1UQQxf6Cw))
+## How to Use the Web Application ([Video Demonstration](https://drive.google.com/file/d/13-p4hSjaZ24SWhNHLltteLrKHgwwkFUG/view?fbclid=IwZXh0bgNhZW0CMTEAAR1L7eWa4FpHH0j8UnSZyCPcgNFbKB-y2_g1W8ZREjsR1T-XT5cKbTcZAQ4_aem_lpjMjc1mnnkae1UQQxf6Cw))
 
 
 ### Select Input Type
