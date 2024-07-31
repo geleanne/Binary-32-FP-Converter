@@ -227,6 +227,12 @@ function computeSPF() {
     ctr++;
   }
 
+    // Check for special case of positive infinity
+    const finalExponentOutput = document.getElementById("final-exponent");
+    const finalExponent = parseInt(finalExponentOutput.textContent, 10);
+    if (finalExponent > 127) {
+        decimalPart = "00000000000000000000000";
+    }
 
   trialQuickPrint("Final Count SPF: " + ctr);
   trialQuickPrint("Count Final Decimal: " + decimalPart.length);
