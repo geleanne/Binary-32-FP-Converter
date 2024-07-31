@@ -90,7 +90,7 @@ function computeNormalizedBinary() {
 
   if (finalExponent < -126 || finalExponent > 127) {
     const shiftAmount = -126 - finalExponent;
-    normalizedBinary = `0.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
+    normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
   }
 
@@ -112,6 +112,10 @@ function computeFinalExponent() {
   const finalExponentOutput = document.getElementById("final-exponent");
   const inputExponent = parseInt(exponentInput.value, 10);
 
+  if (computeInfinitySpecialCase()) {
+    return;
+  }
+
   const { normalizedBinary, exponent } = computeNormalizedBinary();
   let finalExponent = inputExponent + exponent;  
 
@@ -122,6 +126,10 @@ function computeFinalExponent() {
   } else if (finalExponent < -126) {
     finalExponent = -126;
   } else if (finalExponent > 127) {
+    if (finalExponent >= 255) {
+      computeInfinitySpecialCase();
+      return;
+    }
     finalExponent = 127;
   } else if (normalizedBinary === "0.0") {
     finalExponent = 0;
@@ -130,6 +138,7 @@ function computeFinalExponent() {
   trialQuickPrint("Final Exponent : " + finalExponent);
   finalExponentOutput.textContent = finalExponent;
 }
+
 
 // print the sign bit (0 = + or 1 = -) once the COMPUTE button is clicked
 function computeSignBit() {
@@ -321,6 +330,23 @@ function computeNaNSpecialCase() {
   }
 }
 
+// handles special case for infinity
+function computeInfinitySpecialCase() {
+  const mantissaValue = document.getElementById("mantissa-input").value.trim();
+  const exponentInput = parseInt(document.getElementById("exponent-input").value.trim(), 10);
+
+  // Infinity criteria
+  if (exponentInput >= 255 || exponentInput < -126) {
+    const signBit = mantissaValue.startsWith("-") ? 1 : 0;
+    document.getElementById('sign-bit').textContent = signBit;
+    document.getElementById('e-prime').textContent = '1111 1111';
+    document.getElementById('significand').textContent = '0000 0000 0000 0000 0000 000';
+    document.getElementById('special-case').textContent = signBit === 0 ? 'Positive Infinity' : 'Negative Infinity';
+    return true;
+  }
+  return false;
+}
+
 // special case field
 function printSpecialCase() {
   const specialCaseOutput = document.getElementById("special-case");
@@ -346,6 +372,9 @@ function printSpecialCase() {
     specialCase = "Zero";
   } else if (mantissaValue === "Infinity" || mantissaValue === "-Infinity") {
     specialCase = "Infinity";
+  } else if (exponentValue >= 255 || exponentValue < -126) {
+    computeInfinitySpecialCase();
+    return;
   } else {
     const signBit = computeSignBit();
     const { normalizedBinary, exponent } = computeNormalizedBinary();
@@ -365,3 +394,4 @@ function printSpecialCase() {
   specialCaseOutput.textContent = specialCase;
   trialQuickPrint("Special Case: " + specialCase);
 }
+
