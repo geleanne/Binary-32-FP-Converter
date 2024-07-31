@@ -18,7 +18,7 @@ This project is developed by **Group 8** (S14) as a requirement for the CSARCH2 
 ## Deployment
 The project is deployed using Node.js and Vercel.
 
-You can access the live version here: https://binary-32-fp-converter.vercel.app
+You can access the live version here: [https://Group8-Binary-32-Floating-Point-Converter.vercel.app](https://Group8-Binary-32-Floating-Point-Converter.vercel.app)
 
 ## How to Use the Web Application
 ### Select Input Type
