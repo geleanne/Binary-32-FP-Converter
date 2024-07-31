@@ -88,10 +88,14 @@ function computeNormalizedBinary() {
   const inputExponent = parseInt(exponentInput.value, 10);
   const finalExponent = inputExponent + exponent;
 
-  if (finalExponent < -126 || finalExponent > 127) {
+  if (finalExponent < -126) {
     const shiftAmount = -126 - finalExponent;
-    normalizedBinary = `0.${"0".repeat(Math.max(0, shiftAmount - 1))}${normalizedBinary.replace(".", "")}`;
+    normalizedBinary = `0.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
     exponent = -126;
+  } else if (finalExponent > 127) {
+    const shiftAmount = finalExponent - 127;
+    normalizedBinary = `1.${"0".repeat(shiftAmount - 1)}${normalizedBinary.replace(".", "")}`;
+    exponent = 127;
   }
 
   const mantissaValue = document.getElementById("mantissa-input").value;
@@ -172,6 +176,11 @@ function computeEPrime() {
     eprimeToBinary = integerToBinary(ePrime);
     ePrimeOutput.textContent = eprimeToBinary;
     trialQuickPrint("Eprime to Binary : 00000000");
+  } else if (exponentValue === 0) {
+    const ePrime = 0;
+    eprimeToBinary = integerToBinary(ePrime);
+    ePrimeOutput.textContent = eprimeToBinary;
+    trialQuickPrint("Eprime to Binary : 00000000");
   } else {
     const ePrime = finalExponent + 127;
     trialQuickPrint("Final Exponent : " + finalExponent);
@@ -180,7 +189,7 @@ function computeEPrime() {
     trialQuickPrint("Eprime value : " + ePrime);
     trialQuickPrint("Eprime to Binary : " + eprimeToBinary);
     ePrimeOutput.textContent = eprimeToBinary;
-  }
+}
 
   return ePrimeOutput.textContent;
 }
