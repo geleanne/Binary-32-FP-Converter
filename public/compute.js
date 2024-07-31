@@ -148,6 +148,12 @@ function computeSignBit() {
   const signBitOutput = document.getElementById("sign-bit");
   const mantissaValue = mantissaInput.value;
 
+  // Handle special cases for sNaN and qNaN
+  if (mantissaValue === "snan" || mantissaValue === "qnan") {
+    signBitOutput.textContent = "x";
+    return "x";
+  }
+
   if (!mantissaValue) {
     signBitOutput.textContent = "";
     return;
