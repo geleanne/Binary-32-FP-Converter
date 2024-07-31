@@ -296,9 +296,9 @@ function finaAnswrHex() {
   trialQuickPrint(
     "No space count :" + ctr + "\n See result no space : " + result
   );
-  result = groupByFour(result);
+  result = groupByFour(result).replace(/\s+/g, ""); // Remove spaces from grouped hex
 
-  faHex.textContent = result;
+  faHex.textContent = "0x" + result;
 }
 
 // special case field
