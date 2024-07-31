@@ -157,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
             exportSuccessMessage.textContent = "";
         } else {
+            exportErrorMessage.textContent = "";
             computeSignBit();
             computeBinaryRepresentation();
             computeFinalExponent();
@@ -166,34 +167,55 @@ document.addEventListener("DOMContentLoaded", () => {
             finaAnswrHex();
             printSpecialCase();
             computeNaNSpecialCase();
-            exportErrorMessage.textContent = "";
         }
     });
 
-    // export button functionality
-    exportButton.addEventListener("click", function () {
-        const binaryOutput = document.getElementById("binary-output").textContent.trim();
-        const hexOutput = document.getElementById("hex-output").textContent.trim();
+   // export button functionality
+   exportButton.addEventListener("click", function () {
+    const binaryOutput = document.getElementById("binary-output").textContent.trim();
+    const hexOutput = document.getElementById("hex-output").textContent.trim();
+    const selectedFormat = inputType.value;
+    const mantissaValue = mantissaInput.value.trim();
+    const exponentValue = exponentInput.value.trim();
+    const specialCase = document.getElementById('special-case').textContent.trim();
+    const binaryEquivalent = binaryEquivalentOutput.textContent.trim();
+    const normalizedBinary = document.getElementById('normalized-binary').textContent.trim();
+    const finalExponent = document.getElementById('final-exponent').textContent.trim();
+    const signBit = document.getElementById('sign-bit').textContent.trim();
+    const ePrime = document.getElementById('e-prime').textContent.trim();
+    const significand = document.getElementById('significand').textContent.trim();
 
-        if (binaryOutput || hexOutput) {
-            // If there are valid outputs
-            exportSuccessMessage.textContent = "Exporting... Check your Downloads folder.";
-            exportErrorMessage.textContent = "";
-
-            const data = `Binary Output: ${binaryOutput}\nHex Output: ${hexOutput}`;
-            const blob = new Blob([data], { type: "text/plain" });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.style.display = "none";
-            a.href = url;
-            a.download = "output.txt";
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } else {
-            // If there are no valid outputs
-            exportErrorMessage.textContent = "Error: No data available for export.";
-            exportSuccessMessage.textContent = "";
-        }
-    });
+    if (binaryOutput || hexOutput) {
+        // If there are valid outputs
+        exportSuccessMessage.textContent = "Exporting... Check your Downloads folder.";
+        exportErrorMessage.textContent = "";
+        const data = `
+Input Type: ${selectedFormat}\n
+Mantissa: ${mantissaValue}
+Exponent: ${exponentValue}\n
+Binary Equivalent: ${binaryEquivalent}
+Normalized Binary: ${normalizedBinary}
+Final Exponent: ${finalExponent}
+Sign Bit: ${signBit}
+E Prime: ${ePrime}
+Significand: ${significand}
+Special Case: ${specialCase}\n
+Binary Output: ${binaryOutput}
+Hex Output: ${hexOutput}
+        `;
+        const blob = new Blob([data], { type: "text/plain" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "output.txt";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } else {
+        // If there are no valid outputs
+        exportErrorMessage.textContent = "Error: No data available for export.";
+        exportSuccessMessage.textContent = "";
+    }
+});
 });
